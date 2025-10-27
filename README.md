@@ -1,35 +1,51 @@
-# UNIX Shell Scripting
+UNIX Shell Scripting for Life Scientists
+========================================
 
-Welcome to the home page of the **UNIX Shell Scripting** SIB course. This
-repository contains all of the course material.
+Welcome to the home page of the **UNIX Shell Scripting** SIB course.
 
 <br>
 
-## Course resources 📚
+Resources
+---------
 
-**Course slides:**
+### Course slides and resources
+
+**Course in 2 days:**
 
 * [Course slides - day 1](slides/2days/shell-scripting-day1.pdf)
 * [Course slides - day 2](slides/2days/shell-scripting-day2.pdf)
 
-**Exercise instructions:**
+**Course in 3 days:**
 
-* [Exercise instructions - part 1](exercises/instructions/exercises_1.md)
-* [Exercise instructions - part 2](exercises/instructions/exercises_2.md)
-* [Exercise instructions - part 3](exercises/instructions/exercises_3.md)
-* [Exercise instructions - FASTA to TSV converter project](exercises/instructions/exercises_project.md)
+* [Course slides - day 1](slides/3days/shell-scripting-day1.pdf)
+* [Course slides - day 2](slides/3days/shell-scripting-day2.pdf)
+* [Course slides - day 3](slides/3days/shell-scripting-day3.pdf)
 
-**Documentation:**
+### Exercise instructions
 
-* [Course frequently asked questions](info/shell_scripting_faq.md)
+* [Exercise instructions - day 1](exercises/exercises_day1.md)
+* [Exercise instructions - day 2](exercises/exercises_day2.md)
+* [Exercise instructions - day 3](exercises/exercises_day3.md)
+* [Exercise instructions - FASTA to TSV converter project](exercises/exercises_project.md)
+* [Course and exercise data download](https://gitlab.sib.swiss/tjunier/scripting-course/-/archive/master/scripting-course-master.zip)
+
+### Documentation
+
 * [Bash Programming Reference](doc/bash_programming_ref.pdf)
 * [Bash koans](doc/bash_koans.md)
 * [A sysadmin's guide to bash scripting](doc/sysadmin_guide_to_bash_scripting.pdf)
+* [Frequently asked questions](doc/shell_scripting_faq.md)
+
+### Links for online classes
+
+* [Google doc](https://docs.google.com/document/d/1RY2Le0Z6dghKVlzQIOI32OpObC-6TjVuGe2mXXryRPA)
+  for asking questions.
 
 <br>
 <br>
 
-## Course description 💫
+Course description
+------------------
 
 ### Overview
 
@@ -42,16 +58,12 @@ are each carried out by different command-line programs: assembling these into
 scripts allows users to treat whole pipelines as if they were ordinary shell
 commands.
 
-<br>
-
 ### Audience
 
-This course targets users who already have basic knowledge of interactive
-shell use, such as taught in the SIB's
-[Introduction to Linux / UNIX and the Bash shell](https://github.com/sib-swiss/unix-first-steps-training)
-, and are interested in moving from interactive to automated tasks.
-
-<br>
+This course targets users who have basic knowledge of interactive shell use,
+such as taught in the SIB's [First Steps with UNIX in Life
+Sciences](https://www.sib.swiss/training/course/2020-09-unix) and are
+interested in moving from interactive to automated tasks.
 
 ### Learning objectives
 
@@ -75,7 +87,8 @@ The course covers the following topics:
 <br>
 <br>
 
-## Prerequisites and environment setup 🔨
+Prerequisites and environment setup
+-----------------------------------
 
 ### Knowledge / Skills
 
@@ -94,15 +107,12 @@ Notions of programming (in any language) will be useful, but are not essential.
 For a more detailed list of prerequisites, please see
 [this document](prerequisites.md).
 
-<br>
-
 ### Technical - setting-up your environment
 
-**🔥 Important:** please make sure perform the following environment setup
+**Important:** please make sure perform the following environment setup
 **before the start of the course**.
 
 The only technical requirement for the course is having a version of
-`bash` >= `4.0` (released in 2009) installed on your computer.
-
+`bash` >= `4.0` (released in 2009) installed on your computer.  
 If you need to install `bash`, please see the
 [setting-up your environment instructions](environment_setup.md) documentation.

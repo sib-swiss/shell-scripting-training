@@ -1,0 +1,10 @@
+title: Introduction to Unix Shell Scripting
+author: Thomas Junier, Robin Engler
+date: 22-23 May 2024
+navigation: frame
+fontsize: 14pt
+aspectratio: 169
+slide-level: 2
+colorlinks: true
+mainfont: TeX Gyre Pagella
+# the slide title font is controlled in beamer-header.tex
