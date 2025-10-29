@@ -1,52 +1,65 @@
-# UNIX shell scripting: course prerequisites
+---
+title: Preqrequisites for the SIB Shell Scripting Course
+subtitle: What you should already be familiar with
+---
 
-The **UNIX Shell Scripting** course is an intermediate course that assumes
-participants to **be familiar with the basics of the bash shell**, such as
-covered for instance in the SIB
-[Introduction to Linux / UNIX and the Bash shell](https://github.com/sib-swiss/unix-first-steps-training)
-course.
+Background
+==========
 
-To help you evaluate whether the advanced course is for you, this document
-lists the notions with which you should be familiar: if any of the following
-seems mysterious, you may consider taking more introductory course before
-this one.
+The advanced shell course, which covers scripting, relies on material taught in
+entry-level courses such as [First Steps with
+UNIX](https://www.sib.swiss/training/course/2021-01-unix). To help you decide
+whether the advanced course is for you, this document presents a list of notions
+with which you should be familiar: if any of the following seems mysterious, you
+may wish to take more introductory course before this one.
 
-## Shells in General
+Notions
+=======
 
-* What is a shell.
-* How to launch a shell on your machine.
-* How one works in the shell, especially as compared with working in a
-  graphical environment.
+You should be able to explain the following in one or two sentences:
 
-## Commands
+Shells in General
+-----------------
 
-* How to execute shell commands.
-* How shells communicate results (if any).
-* What arguments are and how to pass them.
-* What options are and how to pass them.
+* What a shell is
+* How to launch a shell on your machine
+* How one works in the shell, especially as compared with working in a graphical
+  environment
 
-## The filesystem
+Commands
+--------
 
-* How files and directories are organized.
-* What the current directory is and how to determine it.
-* The difference between an absolute and a relative pathname.
+* How to execute shell commands
+* How shells communicate results (if any)
+* What arguments are and how to pass them
+* What options are and how to pass them
+
+The Filesystem
+--------------
+
+* How files and directories are organized
+* What the current directory is and how to determine it
+* The difference between an absolute and a relative pathname
 * How to list files in the current directory (and, for that matter, in any
-  directory).
-* How to move around the filesystem.
-* How to rename and move files.
+  directory)
+* How to move around the filesystem
+* How to rename and move files
 
-## Text files
+Text Files
+----------
 
 * What a text file is, how it differs from, say, a Word document, and how this
-  relates to shell commands.
+  relates to shell commands
 
-## Redirection and pipelines
+Redirection and Pipelines
+-------------------------
 
-* How to redirect commands' input and output to/from files.
-* How to pass the output of one command to another command's input.
-* What a pipeline is.
+* How to redirect commands' input and output to/from files
+* How to pass the output of one command to another command's input
+* What a pipeline is
 
-## Basic UNIX commands
+Familiar Shell Tools
+====================
 
 You should know the purpose of the following tools, and be able to understand
 what they do (though in-depth knowledge is not required):
@@ -61,7 +74,7 @@ what they do (though in-depth knowledge is not required):
 * `tr`
 * `wc`
 
-## Text Editor
+Text Editor
+===========
 
-We will be writing code, so you need to be comfortable with using a text
-editor/IDE.
+We'll be writing code, so you need to be comfortable with a text editor/IDE. 
