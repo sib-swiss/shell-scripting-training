@@ -1,0 +1,9 @@
+Session.vim
+*.aux
+*.log
+*.nav
+*.snm
+*.tex
+*.toc
+*.vrb
+Session.vim

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>exercises_day1</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cccccc; background-color: #303030; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ffcfaf; } /* Alert */
+    code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bn { color: #dca3a3; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #f0dfaf; } /* ControlFlow */
+    code span.ch { color: #dca3a3; } /* Char */
+    code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+    code span.co { color: #7f9f7f; } /* Comment */
+    code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+    code span.do { color: #7f9f7f; } /* Documentation */
+    code span.dt { color: #dfdfbf; } /* DataType */
+    code span.dv { color: #dcdccc; } /* DecVal */
+    code span.er { color: #c3bf9f; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #c0bed1; } /* Float */
+    code span.fu { color: #efef8f; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+    code span.kw { color: #f0dfaf; } /* Keyword */
+    code span.op { color: #f0efd0; } /* Operator */
+    code span.ot { color: #efef8f; } /* Other */
+    code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+    code span.sc { color: #dca3a3; } /* SpecialChar */
+    code span.ss { color: #cc9393; } /* SpecialString */
+    code span.st { color: #cc9393; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #cc9393; } /* VerbatimString */
+    code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="bash-shell-scripting-exercises-day-1">Bash shell scripting:
+exercises day 1</h1>
+<p><strong>Exercise list:</strong></p>
+<ul>
+<li><a href="#exercise-11-a-complex-pipeline">Exercise 1.1 - a complex
+pipeline</a></li>
+<li><a href="#exercise-12-a-simple-shell-script">Exercise 1.2 - a simple
+shell script</a></li>
+<li><a href="#exercise-13-tokenizing-and-quoting">Exercise 1.3 -
+tokenizing and quoting</a></li>
+<li><a href="#exercise-14-parsing">Exercise 1.4 - parsing</a></li>
+<li><a href="#exercise-15-parameter-expansion">Exercise 1.5 - parameter
+expansions</a></li>
+<li><a
+href="#exercise-16-brace-expansion-and-command-substitution">Exercise
+1.6 - brace expansions and command substitution</a></li>
+<li><a href="#exercise-17-proccess-substitution">Exercise 1.7 -
+process-substitution</a></li>
+</ul>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><strong>Exercise material:</strong> all exercise material is found
+in the <code>exercises/</code> directory of this Git repository. We
+suggest entering this directory when doing the exercises:
+<code>cd exercises/</code>.</li>
+<li>Some of the exercises build on previous exercises, so it’s best if
+they are done in order.</li>
+<li>At the end of some exercises, you will find an <strong>Additional
+Tasks</strong> section. These sections contain additional tasks for you
+to complete, <strong>if you still have the time after having completed
+the main part of the</strong> <strong>exercise</strong>. These sections
+will in principle not be corrected in class.</li>
+<li><strong>Exercise solutions:</strong> all exercises have their
+solution embedded in this document. The solutions are hidden by default,
+but you can reveal them by clicking on the drop-down menu, like the one
+here-below. We encourage you to <em>not</em> look at the solution too
+quickly, and try to solve the exercise without it. Remember you can
+always ask the course teachers for help.</li>
+</ul>
+<details>
+<summary>
+<b>Exercise solution example</b>
+</summary>
+This would reveal the answer…
+</details>
+<p><br> <br></p>
+<h2 id="exercise-1.1---a-complex-pipeline">Exercise 1.1 - A complex
+pipeline</h2>
+<p>You are given a file that contains genetic sequences in <a
+href="https://en.wikipedia.org/wiki/FASTA_format">FASTA format</a> that
+look like the following (see <code>exercises/data/sample_01.dna</code>
+for the full file):</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Desulfo_vulgaris_Hilden<span class="kw">;</span><span class="va">tax</span><span class="op">=</span>d:Bacteria,...,s:Desulfovibrio <span class="ex">vulgaris</span><span class="kw">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ATGGCGAAGAAACCGAGCCTCAGCCCCGAAGAGATGCGCCG</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">CACCATCGAGCGGAAGTACGGTCTGGGGGCGGTCATGAAAC</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">TCCCCGTCATCCCCACCGGTTCCATCGGCCTTGACCTCGCA</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Mycobac_tubercu_H37Rv<span class="kw">;</span><span class="va">tax</span><span class="op">=</span>d:Bacteria,...,s:Pseudomonas <span class="ex">putida</span><span class="kw">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">ATGACGCAGACCCCCGATCGGGAAAAGGCGCTCGAGCTGGC</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">CGGCAAAGGTTCGGTGATGCGCCTCGGCGACGAGGCGCGTC</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">GATCCATCGCACTAGACGTGGCCCTGGGCATTGGCGGCCTG</span></span></code></pre></div>
+<p>Your task is to <strong>find the number of sequences</strong> of the
+species with the most sequences in the file (this may be useful
+<em>e.g.</em> to check for over-representation).<br />
+The result should be a single number. For instance, if the most
+represented species has 16 sequences in the file, then your command
+should output <code>16</code>.</p>
+<p><strong>Hints:</strong></p>
+<ul>
+<li>In a FASTA file, each sequence starts with a <strong>header
+line</strong> that can be identified with by its leading
+<strong><code>&gt;</code></strong> character.</li>
+<li>The species name to which each sequence belongs can be found in the
+header of each sequence, and is prefixed with
+<strong><code>s:</code></strong>. In our example above, the species of
+the first sequence is <code>Desulfovibrio vulgaris</code> - a species of
+<a
+href="https://en.wikipedia.org/wiki/Desulfovibrio_vulgaris">sulfate-reducing
+bacteria</a>.</li>
+</ul>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<p>There are a multitude of ways to solve this task, this is just one
+way to do it:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Commented solution (Note: will not work if you copy/paste because of comments).</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;s:.*;&#39;</span> <span class="op">&lt;</span> data/sample_01.dna <span class="kw">|</span> <span class="ex">\ </span> <span class="co"># Keep only species names.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span> <span class="kw">|</span> <span class="ex">\ </span>           <span class="co"># Sort alphabetically. Needed for applying `uniq` to the data.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="ex">\ </span>        <span class="co"># Keep only a single occurrence of each value, and add counts.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="ex">\ </span>        <span class="co"># Sort numerically.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span> <span class="at">-1</span> <span class="kw">|</span> <span class="ex">\ </span>        <span class="co"># Keep the last value only (the one with the most counts).</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;[0-9]\+&#39;</span>   <span class="co"># Keep only the number of counts (not the name of the species).</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># The same on a single line:</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;s:.*;&#39;</span> <span class="op">&lt;</span> data/sample_01.dna <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;[0-9]\+&#39;</span></span></code></pre></div>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>The backslashes <code>\</code> at the end of lines are only for page
+layout purpose (it’s a line continuation character) - it’s all really
+one line. As we shall see, backslashes are a form of
+<em>escaping</em>.</li>
+<li>The second <code>grep</code> could be replaced by <code>sed</code>,
+<code>awk</code> or <code>cut</code>. We decided to show the solution
+with <code>grep</code> because it might be more familiar to most
+people.</li>
+</ul>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-1.2---a-simple-shell-script">Exercise 1.2 - A simple
+shell script</h2>
+<p>Using your favorite text editor - which should be <a
+href="https://www.vim.org">Vim</a>, of course :-) - create a new file
+named <code>max_spc.sh</code> and copy/paste the following lines of
+shell script into it.<br />
+<strong>Notes:</strong></p>
+<ul>
+<li>These are just the commands from Exercise 1.1 with a minor change
+(can you spot it?).</li>
+<li>Feel free to choose a different file name: the
+<strong><code>.sh</code></strong> extension, like all extensions under
+Unix, has no particular effect and is just a matter of convention
+(<code>sh</code> is short for <code>shell</code>), it could also be
+<code>.bash</code>, for example.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;s:.*;&#39;</span> <span class="kw">|</span>    <span class="co"># Keep only species names.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span> <span class="kw">|</span>             <span class="co"># Sort alphabetically. Needed for applying `uniq` to the data.</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span>          <span class="co"># Keep only a single occurrence of each value, and add counts.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span>          <span class="co"># Sort numerically.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span> <span class="at">-1</span> <span class="kw">|</span>          <span class="co"># Keep the last value only (the one with the most counts).</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;[0-9]\+&#39;</span>  <span class="co"># Keep only the number of counts (not the name of the species).</span></span></code></pre></div>
+<p><strong>Congratulations!</strong>, you have just created a
+<strong>Bash script</strong>.<br />
+Let’s make it <strong>executable</strong> by using the command:
+<strong><code>chmod a+x max_spc.sh</code></strong>.<br />
+You can now try to <strong>run it just as if it were a system
+command</strong>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./max_spc.sh</span> <span class="op">&lt;</span> ./data/sample_01.dna</span></code></pre></div>
+<p>And of course, you can pass any other FASTA file to it:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./max_spc.sh</span> <span class="op">&lt;</span> ./data/sample_02.dna</span></code></pre></div>
+<p>It wouldn’t be hard to run our <code>max_spc.sh</code> on
+<em>all</em> our FASTA <code>./data/sample_*.dna</code> files in a
+single command. We will see <code>for</code> loops later in the course,
+but here is how you could do it:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> ./data/sample_0<span class="pp">?</span>.dna<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-n</span> <span class="st">&quot;Max sequence counts for a single species in </span><span class="va">$file</span><span class="st">: &quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">./max_spc.sh</span> <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p><br> <br></p>
+<h2 id="exercise-1.3---tokenizing-and-quoting">Exercise 1.3 - Tokenizing
+and quoting</h2>
+<p>The following command works…</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> my name is Bond</span></code></pre></div>
+<p>…but this does not:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> my name is O<span class="st">&#39;Donnelly</span></span></code></pre></div>
+<p>Why is that? and how can we fix this?</p>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<p>The problem is that the single quote in <code>O'Donnelly</code> is
+not matched by a second (closing) single quote. To fix this, we can
+either:</p>
+<ul>
+<li>Escape the single quote:
+<code>echo my name is O\'Donnelly</code>.</li>
+<li>Double-quote the whole name (or, indeed, the whole string:
+<code>echo "my name is O'Donnelly"</code>.</li>
+</ul>
+<p><strong>Note:</strong> since the character we are trying to escape is
+a single quote <code>'</code>, we cannot use single quotes to quote
+it.<br />
+This will <em>not</em> work: <code>echo 'my name is O'Donnelly'</code>,
+because there is now again a non-matched single quote (the last
+one).</p>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-1.4---parsing">Exercise 1.4 - Parsing</h2>
+<ol type="1">
+<li><p><strong>Write a command list</strong> that prints the content of
+a file to standard output (i.e. the terminal) if a file exists, and
+print
+<code>Error: the file '&lt;name of file&gt;' does not exist!"</code>
+otherwise.<br />
+<strong>Important:</strong> make sure your command also works with files
+whose name contains a space!</p></li>
+<li><p><strong>Modify your command list</strong> so that the error
+message gets printed to both the standard output and a hypothetical log
+file named <code>tmp.log</code>. Note: the error messages should
+<em>append</em> to the log file, not overwrite it.<br />
+<strong>Hint:</strong> the command <code>tee</code> allows to both write
+content to a file and redirect it to standard output.<br />
+Example usage:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;print me!&quot;</span> <span class="kw">|</span> <span class="fu">tee</span> test_file.txt</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;add another line&quot;</span> <span class="kw">|</span> <span class="fu">tee</span> <span class="at">-a</span> test_file.txt</span></code></pre></div></li>
+<li><p><strong>Additional task (if you have time):</strong> prepend the
+current date and time to the error message.</p></li>
+</ol>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<p>Create some test files and run the command list. Please note:</p>
+<ul>
+<li>To work with file names that contain spaces, the variable
+<code>$file</code> must be double quoted to prevent <strong>word
+spitting</strong> from occurring.</li>
+<li>Inside double quotes, the expansion of variables between single
+quotes (here <code>'$file'</code>) <em>does</em> occur.</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;This is the content of the file...&quot;</span> <span class="op">&gt;</span> test_file.txt</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;This is the content of the file...&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;test file.txt&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="va">file</span><span class="op">=</span><span class="st">&quot;max_spc.sh&quot;</span>        <span class="co"># Test with a regular file.</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="va">file</span><span class="op">=</span><span class="st">&quot;test file.txt&quot;</span>     <span class="co"># Test with a file containing a white space.</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="va">file</span><span class="op">=</span><span class="st">&quot;missing_file.txt&quot;</span>  <span class="co"># Test with a non-existent file.</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;Error: file &#39;</span><span class="va">$file</span><span class="st">&#39; does not exist!&quot;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, we can also directly run `cat` on the file, and re-direct</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># eventual error messages to /dev/null (but this is maybe slightly hacky...).</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;</span> /dev/null <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;Error: file &#39;</span><span class="va">$file</span><span class="st">&#39; does not exist!&quot;</span></span></code></pre></div>
+<p>Both print and save the error message to a log file named
+<code>tmp.log</code>.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span>  <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;Error: file &#39;</span><span class="va">$file</span><span class="st">&#39; does not exist!&quot;</span> <span class="dt">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">tee</span> <span class="at">-a</span> tmp.log</span></code></pre></div>
+<p>Prefix the error log messages with the date and time.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="dt">\</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">date</span> <span class="st">&quot;+%Y%m%d %H:%M:%S&quot;</span><span class="va">)</span><span class="st"> - Error: file &#39;</span><span class="va">$file</span><span class="st">&#39; does not exist!&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tee</span> <span class="at">-a</span> tmp.log</span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-1.5---parameter-expansion">Exercise 1.5 - parameter
+expansion</h2>
+<p>Using the <strong><code>showa</code> function</strong> from the
+course slides, try the following (feel free to use any name as long as
+it has more than one word):</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the `showa` function if not already done.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">showa()</span><span class="kw">{</span> <span class="bu">printf</span> <span class="st">&quot;%d args\n&quot;</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span><span class="kw">;</span> <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span><span class="kw">;}</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the `showa` command.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="va">name</span><span class="op">=</span><span class="st">&#39;Otocolobus manul&#39;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="ex">showa</span> <span class="va">$name</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   2 args</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   Otocolobus</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   manul</span></span></code></pre></div>
+<ul>
+<li>Give two ways of passing <code>$name</code> to <code>showa</code>
+such that the content of <code>$name</code> is <strong>passed as a
+single argument</strong>. In other words, <code>showa</code> should
+output <a
+href="https://en.wikipedia.org/wiki/Pallas%27s_cat"><code>Otocolobus manul</code></a>
+on a single line, as shown below.</li>
+<li>If needed, feel free to read <a
+href="https://www.gnu.org/software/bash/manual/html_node/Word-Splitting.html">this
+short section of the bash manual about word splitting</a>.</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">showa</span> <span class="op">&lt;</span>your argument here, must involve <span class="va">$name</span><span class="op">&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your output should be:</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   1 args</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   Otocolobus manul</span></span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<p>A first solution is to add double quotes around the variable
+<code>$name</code> when passing it to the <code>showa</code> function.
+Note that it must be double quotes - single quotes will not work as they
+prevent expansion of the <code>$name</code> variable.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">name</span><span class="op">=</span><span class="st">&#39;Otocolobus manul&#39;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">showa</span> <span class="st">&quot;</span><span class="va">$name</span><span class="st">&quot;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 args</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Otocolobus manul</span></span></code></pre></div>
+<p>A second solution is to set the <strong><a
+href="https://www.gnu.org/software/bash/manual/bash.html#index-IFS"><code>IFS</code>
+- Internal Field Separator</a></strong> to an empty string, so the
+expanded content of <code>$name</code> is no longer split on whitespace
+(the default <code>IFS</code>).</p>
+<p><strong>Important:</strong> when using this option, make sure to
+<strong>reset the IFS to its default</strong> using the command
+<code>unset IFS</code> when the modified <code>IFS</code> is no longer
+needed, otherwise you are likely to get strange (but not unexpected!)
+behaviors in your shell later on (default <code>IFS</code> value is:
+<code>&lt;spc&gt;&lt;tab&gt;&lt;newline&gt;</code>).</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">IFS</span><span class="op">=</span>          <span class="co"># Same as IFS=&quot;&quot;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">showa</span> <span class="va">$name</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 args</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Otocolobus manul</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure to reset the IFS to its default.</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">IFS</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2
+id="exercise-1.6---brace-expansion-and-command-substitution">Exercise
+1.6 - brace expansion and command substitution</h2>
+<h3 id="part-1---brace-expansion">Part 1 - brace expansion</h3>
+<p>We would like to print the numbers 1 to 10 using the following code.
+Try to run it in your shell… but you should see that it does not give
+the expected result!</p>
+<ul>
+<li><strong>Questions:</strong> why does it not work as expected?</li>
+<li><strong>Note:</strong> we have not yet formally seen the syntax of
+<code>for</code> loops, but it does not really matter here (the syntax
+of the for loop is correct, the problem is elsewhere).</li>
+<li><strong>Warning:</strong> make sure that you are using
+<code>bash</code> and not <code>zsh</code> - the <a
+href="https://en.wikipedia.org/wiki/Z_shell">Z shell</a> which is
+currently the default on MacOS.</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span><span class="op">=</span>10</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> {1..<span class="va">$n</span>}<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$i</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Exercise solution: part 1</b>
+</summary>
+<p>
+<p>The reason why the above loop does not print the expected result
+(i.e. numbers from 1 to 10), is because of the <strong>order in which
+expansions are carried-out by the shell</strong>.</p>
+<p>Specifically, brace expansion is <strong>performed before any other
+expansions</strong>. In our case, this means that the shell will attempt
+to expand <code>{1..$n}</code> before it has actually expanded
+<code>$n</code> to the value <code>10</code>. Since <code>{1..$n}</code>
+does not expand to anything, it is left as is, and then <code>$n</code>
+is expanded into <code>10</code>.<br />
+As a result, the <code>for</code> loop iterates over a single value:
+<code>{1..$10}</code>, which is printed to the terminal via
+<code>echo {1..$10}</code>.</p>
+</p>
+</details>
+<p><br></p>
+<h3
+id="additional-task-if-you-have-time-part-2---command-substitution">Additional
+Task (if you have time): Part 2 - command substitution</h3>
+<p>Try to make the above <code>for</code> loop work by replacing
+<code>{1..$n}</code> with the output of a call to the command
+<strong><code>seq</code></strong>. The <code>seq</code> command can be
+used to generate a sequence of integer numbers.</p>
+<p>Example use of <code>seq</code>:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span> 1 5  <span class="co"># -&gt; prints the number from 1 to 5.</span></span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Exercise solution: part 2</b>
+</summary>
+<p>
+<p>To make the loop print numbers from 1 to 10 while expanding the
+<code>$n</code> variable, we can use the <strong>command
+substitution</strong> <code>$( seq 1 $n )</code>:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span><span class="op">=</span>10</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="va">$(</span> <span class="fu">seq</span> 1 <span class="va">$n</span> <span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$i</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>Alternatively, we could also use the <strong>C-style syntax</strong>
+<code>for</code> loop (more on this later in the course):</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">n</span><span class="op">=</span>10</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="kw">((</span><span class="va">i</span><span class="op">=</span><span class="dv">1</span><span class="kw">;</span> <span class="va">i</span><span class="op">&lt;=</span><span class="va">$n</span><span class="kw">;</span> <span class="va">i</span><span class="op">++</span><span class="kw">));</span> <span class="cf">do</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$i</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<h2 id="exercise-1.7---process-substitution">Exercise 1.7 - process
+substitution</h2>
+<p>The files <code>sample_1.tsv</code> and <code>sample_2.tsv</code> are
+two replicates of a gene expression data.</p>
+<p>To make sure that both files contain the</p>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span> <span class="at">-u</span> <span class="op">&lt;(</span> <span class="fu">cut</span> <span class="at">-f1</span> file 1 <span class="op">)</span> <span class="op">&lt;(</span> <span class="fu">cut</span> <span class="at">-f3</span> file 2<span class="op">)</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<h3 id="additional-task-if-you-have-time">Additional Task (if you have
+time)</h3>
+<p>The same thing, but on 2 different columns, and this time they have
+to additionally be sorted.</p>
+<br>
+<details>
+<summary>
+<b>Exercise solution: additional task</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"></code></pre></div>
+</p>
+</details>
+<p><br></p>
+</body>
+</html>

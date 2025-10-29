@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SIB Bash Scripting Course — Exercises, series 3</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cccccc; background-color: #303030; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ffcfaf; } /* Alert */
+    code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bn { color: #dca3a3; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #f0dfaf; } /* ControlFlow */
+    code span.ch { color: #dca3a3; } /* Char */
+    code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+    code span.co { color: #7f9f7f; } /* Comment */
+    code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+    code span.do { color: #7f9f7f; } /* Documentation */
+    code span.dt { color: #dfdfbf; } /* DataType */
+    code span.dv { color: #dcdccc; } /* DecVal */
+    code span.er { color: #c3bf9f; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #c0bed1; } /* Float */
+    code span.fu { color: #efef8f; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+    code span.kw { color: #f0dfaf; } /* Keyword */
+    code span.op { color: #f0efd0; } /* Operator */
+    code span.ot { color: #efef8f; } /* Other */
+    code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+    code span.sc { color: #dca3a3; } /* SpecialChar */
+    code span.ss { color: #cc9393; } /* SpecialString */
+    code span.st { color: #cc9393; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #cc9393; } /* VerbatimString */
+    code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SIB Bash Scripting Course — Exercises, series 3</h1>
+<p class="subtitle">Fasta -&gt; TSV Converter</p>
+</header>
+<p><strong>Note</strong> See <code>project.pdf</code> for an intro to
+the problem with FastA.</p>
+<p>These exercises are designed to introduce you to the process of
+writing a real-world script from scratch, and to make use of the
+concepts you learned in the course.</p>
+<p><strong>Exercise list:</strong></p>
+<ul>
+<li><a href="#exercise-3.0---design-and-testing">Exercise 3.0 - Design
+and Testing</a></li>
+<li><a href="#exercise-3.1---hello-world">Exercise 3.1 - Hello,
+world!</a></li>
+<li><a href="#exercise-3.2---read-the-first-line">Exercise 3.2 - Read
+the First Line</a></li>
+<li><a href="#exercise-3.4---read-all-the-lines">Exercise 3.4 - Read all
+the Lines</a></li>
+<li><a
+href="#exercise-3.4---distinguish-header-from-sequence-lines">Exercise
+3.4 - Distinguish Header from Sequence Lines</a></li>
+<li><a href="#exercise-3.5---handle-the-two-kinds-of-lines">Exercise 3.5
+- Handle the two Kinds of Lines</a></li>
+<li><a href="#exercise-3.6---two-last-glitches">Exercise 3.6 - Two Last
+Glitches</a></li>
+<li><a href="#exercise-3.7---use-the-script">Exercise 3.7 - Use the
+Script</a></li>
+</ul>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><strong>Exercise material:</strong> all exercise material is found
+in the <code>exercises/</code> directory of this Git repository. We
+suggest entering this directory when doing the exercises:
+<code>cd exercises/</code>.</li>
+<li>Some of the exercises build on previous exercises, so it’s best if
+they are done in order.</li>
+<li>At the end of some exercises, you will find an <strong>Additional
+Tasks</strong> section. These sections contain additional tasks for you
+to complete, <strong>if you still have the time after having completed
+the main exercise</strong>. These sections will in principle not be
+corrected in class.</li>
+<li><strong>Exercise solutions:</strong> all exercises have their
+solution embedded in this document. The solutions are hidden by default,
+but you can reveal them by clicking on the drop-down menu, like the one
+here-below. We encourage you to <em>not</em> look at the solution too
+quickly, and try to solve the exercise without it. Remember you can
+always ask the course teachers for help.</li>
+</ul>
+<details>
+<summary>
+<b>Exercise solution example</b>
+</summary>
+This would reveal the answer…
+</details>
+<p><br> <br></p>
+<h2 id="exercise-3.0---design-and-testing">Exercise 3.0 - Design and
+Testing</h2>
+<p>Before we start happily coding away, we should have an idea of what
+our script needs to do (<em>specifications</em>) and how it will do it
+(<em>program logic</em>). It will also help if we have an easy way of
+making sure our script works correctly (<em>testing</em>).</p>
+<br>
+<details>
+<summary>
+<b>Solution</b>
+</summary>
+<p>
+<h3 id="specifications">Specifications</h3>
+<p>The specifications could look like this:</p>
+<ol type="1">
+<li>The script should accept FastA on its standard input.</li>
+<li>It should transform each (multi-line) FastA record into a
+single-line output record with two fields: (i) the contents of the
+header (<code>&gt;</code>) line, and (ii) the concatenation of the
+contents of all sequence lines, in order.</li>
+<li>The two fields should be separated by a single TAB character.</li>
+<li>The leading <code>&gt;</code> of header lines should be
+dropped.</li>
+</ol>
+<p>Example: the following input</p>
+<pre><code>&gt;DNA 1
+ATGCATGC
+GAATTCGAATTC
+&gt;Protein 2
+ALEAIA
+CTAEST</code></pre>
+<p>should be converted to</p>
+<pre><code>DNA 1\tATGCATGCGAATTCGAATTC
+Protein 2\tALEAIACTAEST</code></pre>
+<h3 id="testing">Testing</h3>
+<p>In fact, these two snippets of data can be used to <em>test</em> our
+script: put the first into a file <code>fasta2tsv-test-in.fas</code> and
+the second into <code>fasta2tsv-test-out.tsv</code>, we can check that
+the script works by doing</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span> <span class="op">&lt;(</span><span class="ex">./fasta2tsv.sh</span> <span class="op">&lt;</span> project-test-in.fas<span class="op">)</span> project-test-out.tsv</span></code></pre></div>
+<p>As long <code>diff</code> reports a difference, we’re not done. Of
+course, there would typically be more than one test, and they would all
+be run automatically (guess how this could be done…).</p>
+<h3 id="logic">Logic</h3>
+<p>As for the program logic, here is a possibility in pseudocode:</p>
+<ol type="1">
+<li>Read the first line, strip the leading ’&gt;` and trailing newline,
+and print it, followed by a TAB</li>
+<li>While there are still lines to read:
+<ol type="1">
+<li>Read one line and strip the trailing newline</li>
+<li><ul>
+<li>If the line starts with <code>&gt;</code> (header):
+<ol type="1">
+<li>print a newline (this starts a new record)</li>
+<li>print the header line (skipping the <code>&gt;</code>), followed by
+a TAB newline, then print the line</li>
+</ol></li>
+<li>Otherwise (sequence), just print the line</li>
+</ul></li>
+</ol></li>
+</ol>
+<p><strong>NOTE</strong> that the <em>first</em> header line is treated
+slightly differently from the other headers: it is not preceded by a
+newline, since we do not have to separate it from preceding records.</p>
+</p>
+</details>
+<p><br></p>
+<h2 id="exercise-3.1---hello-world">Exercise 3.1 - Hello, world!</h2>
+<p>Task: create a Bash script named <code>fasta2tsv.sh</code>. For now,
+it should just print the traditional “Hello, world!” (or any message of
+your choice). It should work like this:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./fasta2tsv.sh</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> world! <span class="co"># or something</span></span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Solution</b>
+</summary>
+<p>
+<p>Using your favourite text editor<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a>, create a file named
+<code>fasta2tsv.sh</code> with the following contents:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&#39;Hello, world!&#39;</span> <span class="co"># could also use echo</span></span></code></pre></div>
+<p>Then make it executable:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +w fasta2tsv.sh</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or: chmod +100 fasta2tsv.sh (geekier)</span></span></code></pre></div>
+<p>And run it:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./fasta2tsv.sh</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> world!</span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<h2 id="exercise-3.2---read-the-first-line">Exercise 3.2 - Read the
+First Line</h2>
+<p>Now we need to get input into our script. First, let’s try to read
+just the first line of input: once we can read one line, it shouldn’t be
+too hard to read them all.</p>
+<p>Task: read the first line of FastA input into a variable called
+<code>line</code>, then print that line.</p>
+<br>
+<details>
+<summary>
+<b>Solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">read</span> <span class="va">line</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;</span><span class="va">$line</span><span class="st">&quot;</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-3.4---read-all-the-lines">Exercise 3.4 - Read all the
+Lines</h2>
+<p>Now, let’s read <em>all</em> the lines, one at a time, and print each
+line just after we’ve read it. If we just wanted to copy the lines, we
+could simply call <code>cat</code>, but later one we’re going to do
+different things with different lines, so we need to be able to read
+each individual line.</p>
+<p>Task: read all the lines, one by one, and print each line after
+reading it.</p>
+<br>
+<details>
+<summary>
+<b>Solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;</span><span class="va">$line</span><span class="st">&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>This is a repetitive task, so it’s a perfect job for a loop. We are
+going to do “something” (that is, print a line) <em>while</em> there is
+still lines to read, so a <code>while</code> loop seems most useful. The
+<code>read</code> command, as we know, will store the next line in the
+<code>line</code> variable; it will fail if there is nothing to read,
+ending the loop.</p>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-3.4---distinguish-header-from-sequence-lines">Exercise
+3.4 - Distinguish Header from Sequence Lines</h2>
+<p>As discussed in <a href="#exercise-3.0---design-and-testing">Exercise
+3.0 - Design and Testing</a>, we have to treat header lines differently
+from sequence lines.</p>
+<p>Task: for each line, determine if it is a header or a sequence line,
+and print out “header” or “sequence” accordingly.</p>
+<br>
+<details>
+<summary>
+<b>Solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">[[</span> <span class="va">${line</span><span class="op">:</span><span class="dv">0</span><span class="op">:</span><span class="dv">1</span><span class="va">}</span> <span class="ot">=</span> <span class="st">&#39;&gt;&#39;</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> header   <span class="co"># simple enough for echo</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> sequence</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">fi</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>We have to make a true/false decision, and we need to do something in
+either situation: this is the textbook use case for
+<code>if ... then ... else ... fi</code>. The criterion is whether the
+first character of the <code>line</code> variable is a <code>&gt;</code>
+or not, so we use it (<code>${line:0:1}</code> in a string comparison
+(<code>[[ ... = ... ]]</code>).</p>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-3.5---handle-the-two-kinds-of-lines">Exercise 3.5 -
+Handle the two Kinds of Lines</h2>
+<p>Now that we can tell headers apart from sequence lines, we are going
+to output them differently, as discussed in the beginning.</p>
+<p>Task:</p>
+<ul>
+<li>if the current line is a header, (i) print a newline, (ii) print the
+line itself, followed by a TAB</li>
+<li>if the current line is a sequence line, just print it.</li>
+</ul>
+<br>
+<details>
+<summary>
+<b>Solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">[[</span> <span class="va">${line</span><span class="op">:</span><span class="dv">0</span><span class="op">:</span><span class="dv">1</span><span class="va">}</span> <span class="ot">=</span> <span class="st">&#39;&gt;&#39;</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">&quot;\n&quot;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">&quot;%s\t&quot;</span> <span class="st">&quot;</span><span class="va">${line</span><span class="op">:</span><span class="dv">1</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">&quot;%s&quot;</span> <span class="st">&quot;</span><span class="va">$line</span><span class="st">&quot;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">fi</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>As seen when discussing parameter expansion, <code>${line:1}</code>
+expands to <code>$line</code>, but starting from the second character —
+effectively dropping the leading <code>&gt;</code>.</p>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-3.6---two-last-glitches">Exercise 3.6 - Two Last
+Glitches</h2>
+<p>We’re almost there — test the program with <code>diff</code> as shown
+above —, but there are still two problems:</p>
+<ol type="1">
+<li>There is an extra empty line at the beginning of the input</li>
+<li>Thee should be a newline at the end of the input.</li>
+</ol>
+<p>Task: fix these two problems. Hint: look again at the
+specifications.</p>
+<br>
+<details>
+<summary>
+<b>Solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">read</span> <span class="va">line</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&quot;%s\t&quot;</span> <span class="st">&quot;</span><span class="va">${line</span><span class="op">:</span><span class="dv">1</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">[[</span> <span class="va">${line</span><span class="op">:</span><span class="dv">0</span><span class="op">:</span><span class="dv">1</span><span class="va">}</span> <span class="ot">=</span> <span class="st">&#39;&gt;&#39;</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">&quot;\n&quot;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">&quot;%s\t&quot;</span> <span class="st">&quot;</span><span class="va">${line</span><span class="op">:</span><span class="dv">1</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">&quot;%s&quot;</span> <span class="st">&quot;</span><span class="va">$line</span><span class="st">&quot;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">fi</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&quot;\n&quot;</span></span></code></pre></div>
+<p>The <em>first</em> line (which we’ll assume to be a header) must be
+treated differently from the other headers, so we read it
+<em>before</em> the <code>while</code> loop, and print it just like the
+other headers, <strong>except</strong> that we do not output a newline
+just before.</p>
+To fix the second problem, we simple output a newline after the loop.
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-3.7---use-the-script">Exercise 3.7 - Use the
+Script</h2>
+<p>Congratulations! The script should now work as advertised (but you
+should still do a final check). Now the script can be put to good
+use.</p>
+<p>Try the following tasks:</p>
+<ol type="1">
+<li>From the file <code>./data/Spo0A.msa</code>, extract the record
+corresponding to ID <code>Bsph_3503</code> (as TSV)</li>
+<li>Find the longest sequence in</li>
+</ol>
+<br>
+<details>
+<summary>
+<b>Solution</b>
+</summary>
+<p>
+<h3 id="task-1">Task 1</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/bin/fasta2dsv.sh</span> <span class="op">&lt;</span> Spo0A.msa <span class="kw">|</span> <span class="fu">grep</span> Bsph_3503 </span></code></pre></div>
+<h3 id="task-2">Task 2</h3>
+<p>The only slightly tricky bit is to get the sequence lengths. This can
+be done e.g. by calling Awk:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ~/bin/fasta2tsv.sh <span class="op">&lt;</span> sample_01.dna <span class="dt">\</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">awk</span> <span class="at">-F</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="at">-v</span> OFS=<span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="st">&#39;{print $1, $2, length($2)}&#39;</span> <span class="dt">\</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-t</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="at">-k3,3n</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span></span></code></pre></div>
+Or we could use Bash itself to compute the length.
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="further-developments">Further Developments</h2>
+<p>Here are some ideas to make the script more realistic:</p>
+<ul>
+<li>Headers — The first liner of a TSV/CSV file typically consists of
+field names rather than data themselves. Our script could be modified to
+include them.</li>
+<li><em>Optional</em> headers — But sometimes, headers get in the way
+(e.g. when sorting by species), so perhaps they should be printed at the
+user’s discretion.</li>
+<li>Other separators: for now fields are TAB-separated, but it would be
+convenient to output CSV (comma-separated) or for that matter to let the
+user specify the field separator.</li>
+</ul>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Did I mention it should be Vim?<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
+</body>
+</html>

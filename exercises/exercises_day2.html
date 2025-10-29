@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>exercises_day2</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cccccc; background-color: #303030; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ffcfaf; } /* Alert */
+    code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bn { color: #dca3a3; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #f0dfaf; } /* ControlFlow */
+    code span.ch { color: #dca3a3; } /* Char */
+    code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+    code span.co { color: #7f9f7f; } /* Comment */
+    code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+    code span.do { color: #7f9f7f; } /* Documentation */
+    code span.dt { color: #dfdfbf; } /* DataType */
+    code span.dv { color: #dcdccc; } /* DecVal */
+    code span.er { color: #c3bf9f; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #c0bed1; } /* Float */
+    code span.fu { color: #efef8f; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+    code span.kw { color: #f0dfaf; } /* Keyword */
+    code span.op { color: #f0efd0; } /* Operator */
+    code span.ot { color: #efef8f; } /* Other */
+    code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+    code span.sc { color: #dca3a3; } /* SpecialChar */
+    code span.ss { color: #cc9393; } /* SpecialString */
+    code span.st { color: #cc9393; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #cc9393; } /* VerbatimString */
+    code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="bash-shell-scripting-exercises-day-2">Bash shell scripting:
+exercises day 2</h1>
+<p><strong>Exercise list:</strong></p>
+<ul>
+<li><a href="#exercise-21-fasta-to-csv-converter-program-logic">Exercise
+2.1 - FASTA to CSV converter: program logic</a></li>
+<li><a href="#exercise-22-reusing-standard-input">Exercise 2.2 - Reusing
+standard input</a></li>
+<li><a href="#exercise-23-getting-user-input-from-arguments">Exercise
+2.3 - Getting user input from arguments</a></li>
+<li><a href="#exercise-24-a-simple-for-loop">Exercise 2.4 - a simple
+<code>for</code> loop</a></li>
+<li><a
+href="#exercise-25-fasta-to-csv-converter-reading-the-input-file-line-by-line">Exercise
+2.5 - FASTA to CSV converter: reading the input file line by
+line</a></li>
+<li><a
+href="#exercise-26-fasta-to-csv-converter-testing-for-header-lines">Exercise
+2.6 - FASTA to CSV converter: testing for header lines</a></li>
+</ul>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><strong>Exercise material:</strong> all exercise material is found
+in the <code>exercises/</code> directory of this Git repository. We
+suggest entering this directory when doing the exercises:
+<code>cd exercises/</code>.</li>
+<li>Some of the exercises build on previous exercises, so it’s best if
+they are done in order.</li>
+<li>At the end of some exercises, you will find an <strong>Additional
+Tasks</strong> section. These sections contain additional tasks for you
+to complete, <strong>if you still have the time after having completed
+the main exercise</strong>. These sections will in principle not be
+corrected in class.</li>
+<li><strong>Exercise solutions:</strong> all exercises have their
+solution embedded in this document. The solutions are hidden by default,
+but you can reveal them by clicking on the drop-down menu, like the one
+here-below. We encourage you to <em>not</em> look at the solution too
+quickly, and try to solve the exercise without it. Remember you can
+always ask the course teachers for help.</li>
+</ul>
+<details>
+<summary>
+<b>Exercise solution example</b>
+</summary>
+This would reveal the answer…
+</details>
+<p><br> <br></p>
+<h2 id="exercise-2.1---fasta-to-csv-converter-program-logic">Exercise
+2.1 - FASTA to CSV converter: program logic</h2>
+<h3 id="part-1---description-of-the-fasta-to-csv-converter-project">Part
+1 - description of the FASTA to CSV converter project</h3>
+<p>This is the first of a series of exercises where we will
+progressively build a script that converts an input in <a
+href="https://en.wikipedia.org/wiki/FASTA_format">FASTA format</a> (from
+a file or from standard input) into a line oriented format: TSV
+(<code>TAB</code> separated values).</p>
+<p>In the input FASTA format, <strong>each sequence starts with a header
+lines</strong> (which can be recognized by its leading
+<strong><code>&gt;</code></strong> character), followed by <strong>a
+variable number of lines that contain the actual sequence</strong>
+(generally the sequence contains nucleotides or amino-acids).<br />
+In the output TSC format, each sequence should be printed on <strong>a
+single line</strong>.</p>
+<p>In other words, we want to turn something like…</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>This <span class="ex">is</span> the first header</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ATGCATGCGCGCGCGC</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">GCGCGCGCATGCATGC</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">GAGCGTTCGCACGAAC</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>This <span class="ex">is</span> the second header</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">GCGCGCGCATGCATGC</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">GAGCGTTCGCACGAAC</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">ATGCATGCGCGCGCGC</span></span></code></pre></div>
+<p>…into (note: header and sequence are separated by a
+<code>TAB</code>):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>This <span class="ex">is</span> the first header     ATGCATGCGCGCGCGCGCGCGCGCATGCATGCGAGCGTTCGCACGAAC</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>This <span class="ex">is</span> the second header    GCGCGCGCATGCATGCGAGCGTTCGCACGAACATGCATGCGCGCGCGC</span></code></pre></div>
+<p>Now that we are familiar with the task at hand, let’s do the
+following:</p>
+<ul>
+<li>Create a new script file named <code>fasta2tsv.sh</code>.</li>
+<li>Make the script print a simple line, e.g.
+<code>Starting FASTA to TSV converter...</code>.</li>
+<li>Add execution permissions to the script and test-run it.</li>
+</ul>
+<br>
+<details>
+<summary>
+<b>Exercise solution: part 1</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Print a test string, just to make sure the script works:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Starting FASTA to TSV converter...&quot;</span></span></code></pre></div>
+<p>Add execution permission and test run the script.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> a+x fasta2tsv.sh</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./fasta2tsv.sh</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; Starting FASTA to TSV converter...</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<h3 id="part-2---write-the-program-logic">Part 2 - write the program
+logic</h3>
+<p>It’s generally a good idea to at least have a sketch of the program’s
+behaviour before we start happily coding away.</p>
+<p>In this exercise, your task is to:</p>
+<ul>
+<li>In the <code>fasta2tsv.sh</code> file, <strong>draft the logic of
+the FASTA to CSV converter</strong> in <a
+href="https://en.wikipedia.org/wiki/Pseudocode">pseudocode</a>. You can
+write the pseudocode as shell comments.</li>
+</ul>
+<br>
+<details>
+<summary>
+<b>Exercise solution: part 2</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Print a test string, just to make sure the script works:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Starting FASTA to TSV converter...&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Program logic in pseudo-code:</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Open the input file for reading.</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through the file **one line at a time**, and for each line:</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If line is a header line:</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Start a new line.</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Print line, followed by a `TAB`.</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Else, if sequence: print the line.</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-2.2---reusing-standard-input">Exercise 2.2 - Reusing
+standard input</h2>
+<p>In the <code>exercises/</code> directory, try to run the following
+command:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./reuse_stdin.sh</span> data/Spo0A.msa</span></code></pre></div>
+<ul>
+<li>Why doesn’t the following work?<br />
+</li>
+<li>How can we make it work?</li>
+<li><strong>Hint:</strong> we will see this in more details in the next
+slides, but <code>$@</code> is a list of all input argument values
+passed to a script (or function).</li>
+</ul>
+<p>For reference, here is the content of the
+<code>./reuse_stdin.sh</code> script:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;The list of input arguments is: </span><span class="va">$@</span><span class="st">&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;And now we grep...&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> Spo0</span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<ul>
+<li><p>The problem is that the script <code>reuse_stdin.sh</code>
+expects to get user input on <strong>the standard input</strong>, but
+when we call the script with
+<code>./reuse_stdin.sh data/Spo0A.msa</code>, we are passing the input
+(in the form of a file name) <strong>as an argument</strong> (and
+indeed, you should see the file name <code>data/Spo0A.msa</code> printed
+in the list of arguments).</p></li>
+<li><p>To fix the problem, we should pass the content of the input file
+<code>data/Spo0A.msa</code> as standard input with the
+<strong><code>&lt;</code></strong> redirection character:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./reuse_stdin.sh</span> <span class="op">&lt;</span> data/Spo0A.msa</span></code></pre></div></li>
+<li><p>Alternatively, we could also modify the
+<code>reuse_stdin.sh</code> script so that it accepts a file name as
+argument… this is what we will cover in the next lecture slides just
+now!</p></li>
+</ul>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-2.3---getting-user-input-from-arguments">Exercise 2.3 -
+Getting user input from arguments</h2>
+<p>Write a short script named <code>hello_world.sh</code> that does the
+following:</p>
+<ul>
+<li>The script should <strong>accept 2 input arguments</strong>:
+<code>name</code> and <code>day</code> (in this order).</li>
+<li>The script should <strong>print a sentence that contains the 2
+values passed</strong> by the user as the arguments <code>name</code>
+and <code>day</code>. For instance, if the user passes <code>John</code>
+as value for <code>name</code>, and <code>Wednesday</code> as value for
+<code>day</code>, the script could print something like:
+<code>Hello John, what a nice Wednesday</code>.</li>
+<li>If no or only 1 value is passed by the user, the script should
+<strong>print an error message and exit</strong> with an error
+code.</li>
+<li>Don’t forget to <strong>make the script executable</strong> and run
+it with some test values to see if it works properly.</li>
+</ul>
+<p>Here is how you would run this script:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./hello_world.sh</span> John Wednesday</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; Hello John, what a nice Wednesday</span></span></code></pre></div>
+<p><strong>Hints:</strong></p>
+<ul>
+<li>To exit a script, use the command <code>exit 0</code> (success) or
+<code>exit 1</code> (error code 1).</li>
+<li>To test whether a variable exists (and is non-empty), you can use
+<code>[ -z $variable ]</code> or <code>[[ -z $variable ]]</code> - the
+former works in most shells, while the latter only works in
+<code>bash</code> shells (we will see this in more details later in the
+course). These expressions <strong>evaluate to true</strong> if the
+variable is unset or empty.</li>
+</ul>
+<p>Here is an example of where we test if <code>test_variable</code> is
+set and non-empty:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">test_variable</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-z</span> <span class="va">$test_variable</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;Variable &#39;test_variable&#39; is not set...&quot;</span></span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="va">name</span><span class="op">=</span><span class="va">$1</span>  <span class="co"># The 1st value passed to the script is assigned to variable &quot;name&quot;.</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="va">day</span><span class="op">=</span><span class="va">$2</span>   <span class="co"># The 2nd value passed to the script is assigned to variable &quot;day&quot;.</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$day</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;please enter a name and day&quot;</span> <span class="kw">&amp;&amp;</span>  <span class="bu">exit</span> 1</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Hello </span><span class="va">$name</span><span class="st">, what a nice </span><span class="va">$day</span><span class="st">.&quot;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> 0</span></code></pre></div>
+<p>We can then run the script with a couple of test values:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> a+x ./hello_world.sh John Wednesday</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> a+x ./hello_world.sh</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> a+x ./hello_world.sh John</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> a+x ./hello_world.sh Wednesday</span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<p><strong>Additional tasks (if you have time):</strong><br />
+Try to improve the script so that it can also detect when a single
+argument (instead of 2) is passed, and <strong>provide a more custom
+error message</strong> depending on whether a single argument or both
+arguments are missing.</p>
+<br>
+<details>
+<summary>
+<b>Additional tasks solution</b>
+</summary>
+<p>
+<p>A simple solution is to detect whether both or only the 2nd value are
+missing from the input. Note that this assumes that the argument values
+are always passed in the correct order (first <code>name</code> and then
+<code>day</code>).</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="va">name</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="va">day</span><span class="op">=</span><span class="va">$2</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$name</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;please enter a name and day&quot;</span> <span class="kw">&amp;&amp;</span>  <span class="bu">exit</span> 1</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$day</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;please enter a day&quot;</span> <span class="kw">&amp;&amp;</span>  <span class="bu">exit</span> 1</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Hello </span><span class="va">$name</span><span class="st">, what a nice </span><span class="va">$day</span><span class="st">.&quot;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> 0</span></code></pre></div>
+<p>We will see later in the course how you can make an interface that
+accepts named arguments, such as say
+<code>--name John --day Wednesday</code>.</p>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2 id="exercise-2.4---a-simple-for-loop">Exercise 2.4 - a simple
+<code>for</code> loop</h2>
+<h3 id="part-1---list-files">Part 1 - list files</h3>
+<p>Write a script named <code>list_files.sh</code> that:</p>
+<ul>
+<li>Accepts a <strong>single input argument</strong> that is a directory
+name.</li>
+<li><strong>Lists all files/directories located in that
+directory</strong> (essentially, this script will do what
+<code>ls</code> does…).</li>
+</ul>
+<br>
+<details>
+<summary>
+<b>Exercise solution: part 1</b>
+</summary>
+<p>
+<p>Script <code>list_files.sh</code>:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">directory</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="va">$directory</span>/<span class="pp">*</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$file</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<h3 id="part-2---generate-files">Part 2 - generate files</h3>
+<p>Write a script named <code>generate_empty_files.sh</code> that:</p>
+<ul>
+<li><strong>Generates a number of empty files</strong> named
+<code>empty_file_&lt;x&gt;_test.txt</code>, where <code>&lt;x&gt;</code>
+is the number of the file (e.g. <code>empty_file_1_test.txt</code>,
+<code>empty_file_2_test.txt</code>, etc…).</li>
+<li>The script should <strong>accept a single argument</strong>: the
+number of files to generate.</li>
+<li>If no value is passed by the user, the script should
+<strong>generate 5 files by default</strong>.</li>
+<li><strong>Hints:</strong>
+<ul>
+<li>To generate an empty file, you can use the
+<code>touch &lt;file name&gt;</code> command.</li>
+<li>Remember the problem with expanding things like
+<code>for x in {1..$n}</code> that we saw in an exercise yesterday. In
+this exercise you will also need to get around this problem.</li>
+</ul></li>
+</ul>
+<p>Example usage of <code>touch</code>:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> a_new_file.txt  <span class="co"># Create a new (empty) file named &quot;a_new_file.txt&quot;</span></span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Exercise solution: part 2</b>
+</summary>
+<p>
+<p>Script <code>generate_empty_files.sh</code>:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="va">n</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-z</span> <span class="va">$n</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="va">n</span><span class="op">=</span>5</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="kw">((</span><span class="va">i</span><span class="op">=</span><span class="dv">1</span><span class="kw">;</span> <span class="va">i</span><span class="op">&lt;=</span><span class="va">$n</span><span class="kw">;</span> <span class="va">i</span><span class="op">++</span><span class="kw">));</span> <span class="cf">do</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">touch</span> empty_file_<span class="va">${i}</span>_test.txt</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>Alternatively, we can also use the <code>seq</code> command and
+<strong>command substitution</strong> <code>$( seq 1 $n )</code> to run
+our <code>for</code> loop:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="va">$(</span> <span class="fu">seq</span> 1 <span class="va">$n</span> <span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">touch</span> empty_file_<span class="va">${i}</span>_test.txt</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<h3 id="additional-task-part-3---delete-empty-files">Additional Task:
+Part 3 - delete empty files</h3>
+<p>In the second part of this exercise, write a script that will
+automatically delete all files named
+<code>empty_file_&lt;x&gt;_test.txt</code>, but <strong>only if they are
+empty</strong>. Files that contain something should not be deleted, to
+avoid accidental data loss.</p>
+<p><strong>Hint:</strong></p>
+<ul>
+<li><p>To test whether a file is empty or not, you can use
+<strong><code>[ -s &lt;file&gt; ]</code></strong> (or
+<strong><code>[[ -s &lt;file&gt; ]]</code></strong>, as long as you are
+in bash), which evaluates to <strong>true</strong> if the file is
+<em>not</em> empty.</p></li>
+<li><p>Example usage of <code>[ -s &lt;file&gt; ]</code>:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-s</span> data/sample_01.dna <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;file is not empty&quot;</span></span></code></pre></div></li>
+</ul>
+<p><strong>Important:</strong> when performing a
+<strong>destructive</strong> task in a loop, it’s always best to run
+your script with prefixing the destructive command with
+<code>echo</code> as a test run, to make sure it works as expected!</p>
+<ul>
+<li>To be extra safe, you can also use <code>rm -i</code> instead of
+<code>rm</code> so that you are asked for confirmation to delete a file
+each time.</li>
+</ul>
+<br>
+<details>
+<summary>
+<b>Additional Task solution: part 3</b>
+</summary>
+<p>
+<p>Script <code>delete_empty_files.sh</code>:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> empty_file_<span class="pp">*</span>_test.txt<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">[</span> <span class="ot">-s</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="cf">continue</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rm</span> <span class="at">-i</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>Alternatively, we could also delete files when they are empty,
+instead of skipping non-empty ones as in the solution above. Note the
+usage of <strong><code>!</code></strong> as <strong>logical not</strong>
+(inverses the value of a boolean).</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> empty_file_<span class="pp">*</span>_test.txt<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-s</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2
+id="exercise-2.5---fasta-to-csv-converter-reading-the-input-file-line-by-line">Exercise
+2.5 - FASTA to CSV converter: reading the input file line by line</h2>
+<p>Reuse the script <strong><code>fasta2tsv.sh</code></strong> that you
+created earlier (it contains the pseudocode for the FASTA to CSV
+converter) and modify it so that it does the following:</p>
+<ul>
+<li><strong>Reads</strong> the content of the <strong>standard
+input</strong> line by line.</li>
+<li><strong>Prints</strong> only the first character of each line.</li>
+</ul>
+<p>Then test you script of the file
+<code>exercises/data/bee-18S.dna</code>.</p>
+<p><strong>Note:</strong> As we are here essentially re-inventing the
+command <strong><code>cut -c1</code></strong>, we can test that our
+script works properly by comparing its output to the output of the
+<code>cut -c1</code> command. This can be done using
+<code>diff -s</code>, as shown below. The output of the
+<code>diff</code> command should print that both (virtual) files are
+identical.</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span> <span class="at">-s</span> <span class="op">&lt;(</span><span class="ex">./fasta2tsv.sh</span> <span class="op">&lt;</span> data/bee-18S.dna<span class="op">)</span> <span class="op">&lt;(</span><span class="fu">cut</span> <span class="at">-c1</span> data/bee-18S.dna<span class="op">)</span></span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">first_char</span><span class="op">=</span><span class="va">${line</span><span class="op">:</span><span class="dv">0</span><span class="op">:</span><span class="dv">1</span><span class="va">}</span> <span class="co"># 1st char of line.</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$first_char</span><span class="st">&quot;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>Now we can test our script with some input:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This should print A, B and C on separate lines.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">&quot;A line\nB line\nC line&quot;</span> <span class="kw">|</span> <span class="ex">./fasta2tsv.sh</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This should print the first character of each line of the input file.</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./fasta2tsv.sh</span> <span class="op">&lt;</span> data/bee-18S.dna</span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+<h2
+id="exercise-2.6---fasta-to-csv-converter-testing-for-header-lines">Exercise
+2.6 - FASTA to CSV converter: testing for header lines</h2>
+<p>Update your <code>fasta2tsv.sh</code> script so that it now prints
+the first character <strong>only if the line starts with the character
+<code>&gt;</code></strong>, which indicates a header line in FASTA
+format.<br />
+The output of your script should thus only print <code>&gt;</code>
+characters (one per line).</p>
+<ul>
+<li><strong>Question:</strong> How many sequences are there in the
+<code>exercises/data/bee-18S.dna</code> file?</li>
+</ul>
+<p><strong>Note:</strong> To test that your script works properly, you
+can run the following command, and it should tell you that the (virtual)
+files are identical.</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span> <span class="at">-s</span> <span class="op">&lt;(</span><span class="ex">./fasta2tsv.sh</span>  <span class="op">&lt;</span> data/bee-18S.dna <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="op">)</span> <span class="op">&lt;(</span><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;^&gt;&quot;</span> data/bee-18S.dna<span class="op">)</span></span></code></pre></div>
+<br>
+<details>
+<summary>
+<b>Exercise solution</b>
+</summary>
+<p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">first_char</span><span class="op">=</span><span class="va">${line</span><span class="op">:</span><span class="dv">0</span><span class="op">:</span><span class="dv">1</span><span class="va">}</span> <span class="co"># 1st char of line.</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">[</span> <span class="va">$first_char</span> <span class="ot">==</span> <span class="st">&quot;&gt;&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$first_char</span><span class="st">&quot;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>The number of sequences in the <code>data/bee-18S.dna</code> file is
+simply the number of lines printed by our updated
+<code>fasta2tsv.sh</code> script (because each sequence starts with a
+header line):</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./fasta2tsv.sh</span> <span class="op">&lt;</span> data/bee-18S.dna <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+</p>
+</details>
+<p><br></p>
+<p><br> <br></p>
+</body>
+</html>
