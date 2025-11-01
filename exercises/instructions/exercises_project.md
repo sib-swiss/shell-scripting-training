@@ -1,61 +1,24 @@
-Bash shell scripting: "FASTA to TSV converter" project exercises
-================================================================
+# Bash shell scripting: "FASTA to TSV converter" project exercises
 
-**Exercise list:**
+<br>
 
-* [Exercise 3.1 - FASTA to TSV converter: program logic](#exercise-31-fasta-to-tsv-converter-program-logic)
-* [Exercise 3.2 - FASTA to TSV converter: reading the input file line by line](#exercise-32-fasta-to-tsv-converter-reading-the-input-file-line-by-line)
-* [Exercise 3.3 - FASTA to TSV converter: distinguish header from sequence](#exercise-33-fasta-to-tsv-converter-distinguish-header-from-sequence)
-* [Exercise 3.4 - FASTA to TSV converter: handle the two kinds of lines](#exercise-34-fasta-to-tsv-converter-handle-the-two-kinds-of-lines)
-* [Exercise 3.5 - FASTA to TSV converter: two last glitches](#exercise-35-fasta-to-tsv-converter-two-last-glitches)
-* [Additional tasks - FASTA to TSV converter: further developments](#additional-tasks-fasta-to-tsvconverter-further-developments)
+> 🔥 **Important:** exercises in this series build upon each other, and should
+> therefore be done in order.
+
+<br>
+
+## Project introduction
 
 In this series of exercises, we will progressively build a script that converts
-an input in [FASTA format](https://en.wikipedia.org/wiki/FASTA_format) - from a
-file or from standard input - into a line oriented format:
-TSV (`TAB` separated values).
+an input in [FASTA format](https://en.wikipedia.org/wiki/FASTA_format) into a
+line oriented format: TSV (`TAB` separated values).
 
-Exercises in this series build upon each other, and should therefore be done
-in order.
+In FASTA format, each sequence **starts with a header line** - recognizable
+by its leading **`>`** character - followed by **a variable number of lines**
+that contain the actual sequence. Generally the sequence contains nucleotides
+or amino-acids.
 
-:pushpin:
-**Notes:**
-
-* **Exercise material:** all exercise material is found in the `exercises/`
-  directory of this Git repository. The exercise instructions assume that you
-  are located in that directory, so we suggest entering it when doing the
-  exercises: `cd exercises/`.
-* **Exercise solutions:** all exercises have their solution embedded in this
-  document. The solutions are hidden by default, but you can reveal them by
-  clicking on the drop-down menu, like the one here-below.
-  We encourage you to *not* look at the solution too quickly, and try to
-  solve the exercise without it. Remember you can always ask the course
-  teachers for help.
-
-<details><summary><b>Exercise solution example</b></summary>
-
-> This would reveal the answer...
-
-</details>
-
-<br>
-<br>
-
-Exercise 3.1 - FASTA to TSV converter: program logic
-----------------------------------------------------
-
-### Part 1 - description of the FASTA to TSV converter project
-
-This is the first of a series of exercises where we will progressively build
-a script that converts an input in
-[FASTA format](https://en.wikipedia.org/wiki/FASTA_format) (from a file or from
-standard input) into a line oriented format: TSV (`TAB` separated values).
-
-In the FASTA format, **each sequence starts with a header line** (recognizable
-by its leading **`>`** character), followed by
-**a variable number of lines that contain the actual sequence** (generally
-the sequence contains nucleotides or amino-acids).  
-In the output TSC format, each sequence should be printed on **a single line**.
+In the output TSV format, each sequence should be printed on **a single line**.
 
 In other words, we want to turn something like...
 
@@ -72,13 +35,19 @@ MVRVAINGFGIQ
 ...into (note: header and sequence are separated by a `TAB`):
 
 ```sh
-DNA sequence 1 (the first header)      ATGCATGCGCGCGCGCGCGCGCGCATGCATGCGAGCGTTCGCACGAAC
-Protein sequence 2 (the second header) ALEAIACTAESTMVRVAINGFGIQ
+DNA sequence 1 (the first header)       ATGCATGCGCGCGCGCGCGCGCGCATGCATGCGAGCGTTCGCACGAAC
+Protein sequence 2 (the second header)  ALEAIACTAESTMVRVAINGFGIQ
 ```
 
-#### Create a `fasta2tsv.sh` script file
+<br>
+<br>
 
-Now that we are familiar with the task at hand, let's do the following:
+## Exercise 3.1 - Program logic
+
+### A) Create a `fasta2tsv.sh` script file
+
+Now that we are familiar with the task at hand, let's start by creating a new
+script file.
 
 * **Create a new script file** named `fasta2tsv.sh`.
 * **Make the script print a simple line**, e.g.
@@ -86,7 +55,7 @@ Now that we are familiar with the task at hand, let's do the following:
 * **Add execution permissions** to the script and test-run it.
 
 <br>
-<details><summary><b>Exercise solution: part 1</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 ```sh
@@ -109,7 +78,7 @@ chmod a+x fasta2tsv.sh
 </details>
 <br>
 
-### Part 2 - testing
+### B) Testing
 
 The DNA and protein FASTA snippet examples that were shown earlier in this
 exercise **can be used to test our script:** you will find them in the files
@@ -125,20 +94,19 @@ diff -su <(./fasta2tsv.sh < data/fasta2tsv_test_input.fas) data/fasta2tsv_test_o
 expected. Obviously, at this point, we are getting lot of differences between
 the actual and expected outputs.
 
-:pushpin:
-*Notes:*
-
-* The `-u` option of `diff` prints output in **unified format**, which makes it
-  a bit easier to read.
-* The `-s` option prompts `diff` to print a short message when both files are
-  identical. The default behavior of `diff` is to print nothing when both files
-  are the same.
-* When writing a real production script there would typically be more than one
-  test, and they would all be run automatically.
+> ✨ **Notes:**
+>
+> * The `-u` option of `diff` prints output in **unified format**, which makes
+>   it a bit easier to read.
+> * The `-s` option prompts `diff` to print a short message when both files are
+>   identical. The default behavior of `diff` is to print nothing when both
+>   files are the same.
+> * When writing a real production script there would typically be more than
+>   one test, and they would all be run automatically.
 
 <br>
 
-### Part 3 - write the program logic
+### C) Write the program logic
 
 It's generally a good idea to at least have a sketch of the program's behavior
 before we start happily coding away.
@@ -150,7 +118,7 @@ In this exercise, your task is to:
   pseudocode as shell comments.
 
 <br>
-<details><summary><b>Exercise solution: part 3</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 ```sh
@@ -172,20 +140,17 @@ echo "Starting FASTA to TSV converter..."
 #       * Otherwise (sequence), just print the line.
 ```
 
-:pushpin:
-*Note* that the *first* header line is treated slightly differently from the
-other headers: it is not preceded by a newline, since we do not have to
-separate it from preceding records.
+> ✨ **Note:** the _first_ header line is treated slightly differently from the
+> other headers: it is not preceded by a newline, since we do not have to
+> separate it from preceding records.
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
 
-Exercise 3.2 - FASTA to TSV converter: reading the input file line by line
---------------------------------------------------------------------------
+## Exercise 3.2 - FASTA to TSV converter: reading the input file line by line
 
 We will now start to flesh-out our **`fasta2tsv.sh`** script that we created
 in exercise 3.1 with actual code.
@@ -194,7 +159,7 @@ The first part of the FASTA to TSV converter that we will implement is the
 reading of the input. For now we will assume that our input FASTA data
 **is provided to our script via the standard input**.
 
-### Part 1: reading the first line from the input
+### A) Reading the first line from the input
 
 Read the first line of FASTA input into a variable named `line`, and print
 that line to stdout.
@@ -213,7 +178,7 @@ input file. It should print a single line (the first line of the file):
 ```
 
 <br>
-<details><summary><b>Exercise solution: part 1</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 ```sh
@@ -227,18 +192,17 @@ printf "%s\n" "$line"
 </details>
 <br>
 
-### Part 2: reading the remaining lines from the input
+### B) Reading the remaining lines from the input
 
 Read all remaining lines, **one at a time**. Store each line in the variable
 `line` and print it to stdout.
 
-* :dart:
-  **Hint:** this is a repetitive task, and therefore a perfect candidate for
-  **a loop**.
-* :pushpin:
-  *Note:* if we just wanted to print all lines, we could simply call `cat`. But
-  as we will want to process individual lines, we need to be able to read each
-  line individually.
+> 🎯 **Hint:** this is a repetitive task, and therefore a perfect candidate
+> for **a loop**.
+
+> ✨ **Note:** if we just wanted to print all lines, we could simply call
+> `cat`. But as we will want to process individual lines, we need to be able
+> to read each line individually.
 
 As before, test your script by running:
 
@@ -249,10 +213,10 @@ As before, test your script by running:
 It should now print the entire content of `data/fasta2tsv_test_input.fas`.
 
 <br>
-<details><summary><b>Exercise solution: part 2</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
-Here we are doing something - read and print a line - *while* there is still
+Here we are doing something - read and print a line - _while_ there are still
 lines to read, so a `while` loop seems most useful.
 
 The `read` command, as we know, will store the next line in the `line`
@@ -273,21 +237,18 @@ done
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
 
-Exercise 3.3 - FASTA to TSV converter: distinguish header from sequence
------------------------------------------------------------------------
+## Exercise 3.3 - Distinguish header from sequence
 
 As discussed at the start of this series of exercises (see pseudocode in
 exercise 3.1), we have to treat header lines differently from sequence lines.
 We must therefore be able to distinguish them.
 
-* :dart:
-  **Hint:** remember that in FASTA format, header lines are the only lines that
-  start with the character **`>`**.
+> 🎯 **Hint:** remember that in FASTA format, header lines are the only lines
+> that start with the character **`>`**.
 
 Update the `fasta2tsv.sh` script so that it can determines whether the current
 line is a header or a sequence line, and accordingly
@@ -309,7 +270,7 @@ sequence MVRVAINGFGIQ
 ```
 
 <br>
-<details><summary><b>Exercise solution</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 We have to make a true/false decision, and we need to do something in either
@@ -343,13 +304,11 @@ done
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
 
-Exercise 3.4 - FASTA to TSV converter: handle the two kinds of lines
---------------------------------------------------------------------
+## Exercise 3.4 - Handle the two kinds of lines
 
 Now that we can tell headers apart from sequence lines, we are going to output
 them differently (see pseudocode in exercise 3.1).
@@ -361,7 +320,7 @@ Update the `fasta2tsv.sh` script so that:
 * If the current line is a sequence line, just print it.
 
 <br>
-<details><summary><b>Exercise solution</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 As seen when discussing parameter expansion, `${line:1}` expands to `$line`,
@@ -392,13 +351,11 @@ done
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
 
-Exercise 3.5 - FASTA to TSV converter: two last glitches
---------------------------------------------------------
+## Exercise 3.5 - Fixing two last glitches
 
 We're almost there, but testing the program with `diff` shows that there are
 still 3 problems:
@@ -422,7 +379,7 @@ diff -su <(./fasta2tsv.sh < data/fasta2tsv_test_input.fas) data/fasta2tsv_test_o
 ```
 
 <br>
-<details><summary><b>Exercise solution</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 * To fix the first problem, we print `"${line:1}"` instead of `"$line"`.
@@ -463,8 +420,7 @@ printf "\n"
 <br>
 <br>
 
-Additional tasks - FASTA to TSV converter: further developments
----------------------------------------------------------------
+## 🔮 Additional tasks - Further developments
 
 Here are some ideas to make the script more realistic:
 
@@ -474,7 +430,7 @@ Here are some ideas to make the script more realistic:
 * **Make the header optional:** sometimes, headers get in the way (e.g. when
   sorting by species), so perhaps they should be printed at the user's
   discretion. The `fasta2tsv.sh` script could thus accept an option to prevent
-  the printing of the output header. 
+  the printing of the output header.
 * **Custom field separator:** for now fields in the output are TAB-separated,
   but it would be convenient to output CSV (comma-separated) or, for that
   matter, to let the user specify any custom field separator.
@@ -482,15 +438,15 @@ Here are some ideas to make the script more realistic:
 <br>
 <br>
 
-Use the Script
---------------
+## Using the Script
 
 Congratulations! The script should now work as advertised (but you should still
 do a final check). Now the script can be put to good use.
 
 Try the following tasks:
 
-1. From the file `./data/Spo0A.msa`, extract the record corresponding to ID `Bsph_3503` (as TSV)
+1. From the file `./data/Spo0A.msa`, extract the record corresponding to ID
+   `Bsph_3503` (as TSV)
 2. Find the longest sequence in 
 
 
@@ -518,7 +474,6 @@ $ ~/bin/fasta2tsv.sh < sample_01.dna \
 Or we could use Bash itself to compute the length.
 </p>
 </details>
-<br>
 
 <br>
 <br>
