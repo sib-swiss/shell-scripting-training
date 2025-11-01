@@ -2,17 +2,6 @@
 
 <br>
 
-**📣 Before you start...**
-
-* **🔮 Additional Tasks:** some exercises have **additional tasks** that you
-  can complete if you still have time after having completed the main part
-  of the exercise. These will in principle *not* be corrected in class.
-* **Table of content:** when viewing this document on GitHub you can display
-  a table of content by clicking on the "Outline" button at the top right.
-
-<br>
-<br>
-
 ## Exercise 3.1 - output formatting
 
 In this exercise, **we continue to build the FASTA to TSV converter script**
@@ -28,7 +17,7 @@ while read line; do
 done
 ```
 
-### Part 1: printing the sequence as a single line
+### A) Printing the sequence as a single line
 
 Your first task is to modify your `fasta2tsv.sh` script so that it takes
 the correct action (i.e. does the correct printing) for each line of the
@@ -93,7 +82,7 @@ done
 
 <br>
 
-### Part 2: formatting details
+### B) formatting details
 
 If not already the case, make sure that your script:
 
@@ -163,15 +152,15 @@ Your task is to **improve the `fasta2tsv.sh` script so that it:**
   ./fasta2tsv.sh input_fasta_file         # Output file will be TAB delimited.
   ```
 
-**🎯 Hints:**
-
-* When we discussed input (see course slides), we saw that the **`exec`**
-  keyword can redirect I/O from within a script.
-* The **`shift`** keyword can be used to remove arguments from the beginning
-  of the argument list.
-  * `shift` will remove a single argument, so that `$2` will become `$1`, `$3`
-    becomes `$2`, etc.
-  * `shift 2` removes 2 arguments, `shift 3` removes 3, etc.
+> **🎯 Hints:**
+>
+> * When we discussed input (see course slides), we saw that the **`exec`**
+>   keyword can redirect I/O from within a script.
+> * The **`shift`** keyword can be used to remove arguments from the beginning
+>   of the argument list:
+>   * `shift` will remove a single argument, so that `$2` will become `$1`,
+>     `$3` becomes `$2`, etc.
+>   * `shift 2` removes 2 arguments, `shift 3` removes 3, etc.
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -211,20 +200,21 @@ done
 printf "\n"
 ```
 
-**Note:** `[[ "$1" ]] && exec < "$1"` is the short form for:
+<br>
 
-```sh
-if [[ "$1" ]] ; then
-    exec <"$1"
-fi
-```
-
-The short form is often used where there is a single command to execute in
-a `if` block.
+> 🌈 **Note:** `[[ "$1" ]] && exec < "$1"` is the short form for:
+>
+> ```sh
+> if [[ "$1" ]] ; then
+>     exec <"$1"
+> fi
+> ```
+>
+> The short form is often used where there is a single command to execute in
+> a `if` block.
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
@@ -249,12 +239,11 @@ Length: mean=3.00    # This is wrong: it should be 15.12
 ```
 
 The problem with this output is that only the mean value for `Weight` is
-correct: the values for `Age` and `Length` are wrong.  
-So let's try to fix this!
+correct: the values for `Age` and `Length` are wrong. Let's try to fix this!
 
 <br>
 
-### Part 1: add support for floating point values
+### A) Add support for floating point values
 
 As we have seen from running `compute_mean_values.sh`, in its current form,
 the `mean` function only gives the correct result when all input values are
@@ -266,21 +255,22 @@ so that:
 * It supports floating point inputs.
 * It can compute non-integer mean values.
 
-**🎯 Hints:**
-
-* One of the easiest ways to do floating point arithmetic in the shell is to
-  use the **[`bc` command](https://www.gnu.org/software/bc/manual/html_mono/bc.html)**.
-* The way that `bc` works is by passing it a string with the expression to
-  evaluate. Example: `echo "1.1 + 2.2" | bc`.
-* To perform floating point divisions, use `bc -l`. E.g. `echo "3 / 2" | bc -l`
-* You can check your implementation by verifying that you get the following
-  mean values:
-
-```sh
-Age:    mean=94.20
-Weight: mean=20.00
-Length: mean=15.12
-```
+> **🎯 Hints:**
+>
+> * One of the easiest ways to do floating point arithmetic in the shell is to
+>   use the
+>   **[`bc` command](https://www.gnu.org/software/bc/manual/html_mono/bc.html)**.
+> * The way that `bc` works is by passing it a string with the expression to
+>   evaluate. Example: `echo "1.1 + 2.2" | bc`.
+> * To perform floating point divisions, use `bc -l`. E.g. `echo "3 / 2" | bc -l`
+> * You can check your implementation by verifying that you get the following
+>   mean values:
+>
+> ```sh
+> Age:    mean=94.20
+> Weight: mean=20.00
+> Length: mean=15.12
+> ```
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -305,7 +295,7 @@ function mean {
 </details>
 <br>
 
-### Part 2: add a `sum` function and refactor the script
+### B) Add a `sum` function and refactor the script
 
 We now would like to **add a function** that **computes the sum** of an array
 of values.  
@@ -377,7 +367,7 @@ function sum {
 
 <br>
 
-### 🔮 Additional tasks (part 3): add a `variance` function
+### 🔮 Additional Task: add a `variance` function
 
 Add a function that **computes the variance** of each array, and modify
 `compute_mean_values.sh` so that is additionally prints the variance values.
@@ -475,7 +465,6 @@ printf "\n"
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
@@ -491,18 +480,18 @@ Let's add a few more options to our `fasta2tsv.sh` script:
 * **`-t`**: Adds a **header row** to the output (`-h` being already taken, we
   use `-t` as in "title").
 
-**🔥 Important:**
+> **🔥 Important:**
+>
+> * All arguments must be implemented as to be optional - the script should
+>   still work without them.
+> * The script should accept the optional arguments **in any order**. Only the
+>   input file name (if any) must obligatorily be passed in last position.
+> * To improve code readability, you should implement the printing of the
+>   "help" message in a separate function.
 
-* All arguments must be implemented as to be optional - the script should still
-  work without them.
-* The script should accept the optional arguments **in any order**. Only the
-  input file name (if any) must obligatorily be passed in last position.
-* To improve code readability, you should implement the printing of the
-  "help" message in a separate function.
-
-**🌟 Coding tip:** to do some debugging while writing loops, you can
-temporarily add a `printf` or `echo` command inside the loop the see the value
-of a specific variable inside the loop.
+> **🌟 Coding tip:** to do some debugging while writing loops, you can
+> temporarily add a `printf` or `echo` command inside the loop the see the value
+> of a specific variable inside the loop.
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -592,10 +581,7 @@ printf "\n"
 </details>
 <br>
 
-<br>
-<br>
-
-### 🔮 Additional tasks: adding more options
+### 🔮 Additional Task: adding more options
 
 * Add the long form options `--separator` (for `-s`), `--help` (for `-h`),
   and `--title` (for `-t`) to the `fasta2tsv.sh` script. The idea is that

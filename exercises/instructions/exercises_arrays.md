@@ -1,9 +1,10 @@
-Exercise 2.x - Arrays
----------------------
+# Shell scripting exercises: Arrays
+
+## Exercise 1
 
 Write a program that translates codons to amino acids.
 
-### Step 1
+### A) Data structure
 
 What kind of data structure would be suitable for storing amino acids and
 mapping codons to them? You should be able, given e.g. codon `ATG`, to retrieve
@@ -19,7 +20,7 @@ You can check that your structure is correct by using `declare -p` in your
 script.
 
 <br>
-<details><summary><b>Exercise solution: step 1</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 ```bash
@@ -39,7 +40,7 @@ declare -rA GENETIC_CODE=(
 </details>
 <br>
 
-### Step 2 - split the sequence into codons
+### B) Split the sequence into codons
 
 Now, have your script accept a sequence as its first (and only) parameter.
 Print each codon in turn, e.g.
@@ -58,7 +59,7 @@ TAA
 ```
 
 <br>
-<details><summary><b>Exercise solution: step 2</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 There are least two relatively easy way to solve this problem:
@@ -96,7 +97,7 @@ done
 </details>
 <br>
 
-### Step 3 - codon translation
+### C) Codon translation
 
 Now, instead of printing each codon, print its translation instead (using the
 structure you declared in step 1). Do not print a newline after each amino acid;
@@ -108,7 +109,7 @@ rather, print a newline only after the last one. It should look like this:
 ```
 
 <br>
-<details><summary><b>Exercise solution: step 3</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 ```bash
@@ -126,22 +127,22 @@ printf "\n"
 </details>
 <br>
 
-### Additional Task: step 4 - programmatically build the associative array
+### 🔮 D) Additional Task: programmatically build the array
 
 Instead of hard-coding the genetic code in a large array, _read_ it from the
 CSV file `./data/genetic_code.csv` instead.
 Recall that you can use `read` to, well, read lines, and tweak `IFS` to split
 along separators.
 
-**Note**, that we do not bother with the following:
-
-* Any characters other than `ATGC` in the sequence.
-* Sequences whose length is not a multiple of 3.
-
-In a realistic setting, both of the above should be addressed.
+> ✨ **Note:**t we do not bother with the following:
+>
+> * Any characters other than `ATGC` in the sequence.
+> * Sequences whose length is not a multiple of 3.
+>
+> In a realistic setting, both of the above should be addressed.
 
 <br>
-<details><summary><b>Exercise solution: step 4</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 ```bash
@@ -163,13 +164,11 @@ printf "\n"
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
 
-Exercise 2.y - sequence similarity
-----------------------------------
+## Exercise 2 - Sequence similarity
 
 We would like to write a script named `compute_similarity.sh` that takes a
 FASTA file as unique input and outputs a matrix (table) of all pairwise
@@ -191,7 +190,7 @@ And that will output:
 70.75   26.87   22.39   70.45   100.00
 ```
 
-### Part 1 - write a function that computes similarity between sequences
+### A) Compute similarity between sequences
 
 The fist part of this exercise is to write a **function** that can
 **compute similarity between 2 DNA sequences** (or amino-acids sequences).
@@ -221,7 +220,7 @@ sequence_similarity $seq2 $seq3  # -> 25.00
 ```
 
 <br>
-<details><summary><b>Exercise solution: part 1</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 ```bash
@@ -244,10 +243,10 @@ function sequence_similarity {
 </details>
 <br>
 
-### Part 2 - write the script `compute_similarity` script
+### B) Write a script
 
 Now that we have the core of the function - the `sequence_similarity` function,
-we can write the `compute_similarity.sh` script around it.
+we can write a **`compute_similarity.sh`** script around it.
 
 Roughly speaking, the logic of the code should be to:
 
@@ -258,14 +257,14 @@ Roughly speaking, the logic of the code should be to:
   function.
 * **Print the sequence similarity values** in a matrix format.
 
-**Hints:**
-
-* **To load the sequences** from the input FASTA file, you will find it handy
-  to use the FASTA to TSV converter that we wrote earlier in this course.
-* **To split tabular data** (such as produced by the FASTA to TSV converter)
-  into individual fields, the **`cut`** command (see `man cut` for details).
-* To avoid repeatedly loading the same sequences, you can
-  **store them in an array**.
+> 🎯 **Hints:**
+>
+> * **To load the sequences** from the input FASTA file, you will find it handy
+>   to use the FASTA to TSV converter that we wrote earlier in this course.
+> * **To split tabular data** (such as produced by the FASTA to TSV converter)
+>   into individual fields, the **`cut`** command (see `man cut` for details).
+> * To avoid repeatedly loading the same sequences, you can
+>   **store them in an array**.
 
 You can use the test file `data/sequence_similarity.fasta` to test your
 script. If it is working properly, you should get the following matrix
@@ -281,7 +280,7 @@ output:
 ```
 
 <br>
-<details><summary><b>Exercise solution: part 2</b></summary>
+<details><summary><b>✅ Solution</b></summary>
 <p>
 
 ```sh
