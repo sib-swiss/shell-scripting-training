@@ -1,16 +1,5 @@
-# Exercises part 2: input arguments, loops and functions
+# Shell scripting exercises part 2: arguments, loops and functions
 
-<br>
-
-**📣 Before you start...**
-
-* **🔮 Additional Tasks:** some exercises have **additional tasks** that you
-  can complete if you still have time after having completed the main part
-  of the exercise. These will in principle *not* be corrected in class.
-* **Table of content:** when viewing this document on GitHub you can display
-  a table of content by clicking on the "Outline" button at the top right.
-
-<br>
 <br>
 
 ## Exercise 2.1 - variable assignment and testing
@@ -18,18 +7,20 @@
 Write a short script named `test_fasta.sh` that does the following
 (in this order):
 
-1. **Create a variable named `input_file`** and set its value to
+1. **Initializes a variable named `input_file`** and sets its value to
    `data/sample_01.dna`.
-2. **Test whether the file `data/sample_01.dna` exists** and is a regular
-   file. You should test this using the `input_file` variable.
+2. **Tests whether the file in `input_file` exists** and is a regular file.
    If the file does not exist, the script should exit with exit code `1`.
-3. **Read the first line of the file** and assign it to a variable named `line`.
-   **🎯 Hint:** you can use the command `head -n1` to get the first line of a
-   file.
-4. **Using the `line` variable**, test whether the first line starts with the
-   character **`>`** (indicating that it is a header line of a FASTA file).
-   If so, print the message:
-   > File 'input file name here' looks like a FASTA file
+3. **Reads the first line of the file**, and assigns it to a variable named
+   `line`.
+   > **🎯 Hint:** you can use the command `head -n1` to get the first line
+   > of a file.
+4. **Using the `line` variable**, tests whether the first line starts with the
+   character **`>`** (indicating that it is a header line of a
+   [FASTA](https://en.wikipedia.org/wiki/FASTA_format) file). If so, print
+   the message:
+   > File '< input file name >' looks like a FASTA file.
+
 5. **Make your script executable and test run it.**
    Also make sure that it still works if you set `input_file` to
    `data/poorly named sample.dna` (i.e. an input file that contains a space).
@@ -37,6 +28,10 @@ Write a short script named `test_fasta.sh` that does the following
 <br>
 <details><summary><b>✅ Solution</b></summary>
 <p>
+
+To make the script resilient to white spaces in file names, we need to
+**surround the expansion of `"$input_file"` with double quotes** on lines 6
+and 9 of the script.
 
 ```sh
 #!/bin/bash
@@ -50,21 +45,28 @@ input_file="data/sample_01.dna"
 line=$(head -n1 "$input_file")
 
 # Test whether the first line starts with the character `>`.
-[[ ${line:0:1} == ">" ]] && echo "File '${input_file}' looks like a FASTA file"
-
+[ "${line:0:1}" = ">" ] && echo "File '${input_file}' looks like a FASTA file"
 ```
 
-By setting `input_file="data/poorly named sample.dna"` we can check that our
-script still works when the input file has a white space in its name. To make
-the script resilient to white spaces in file names, we need to make sure that
-the expansion `"$input_file"` is **surrounded by double quotes** on lines 6
-and 9 of the script.
+> ✨ **Note:** here are some alternative ways of writing the test
+> `[ "${line:0:1}" = ">" ]`:
+>
+> * `[[ "${line:0:1}" == ">" ]]` This uses the bash
+>    **extended test command `[[ ... ]]`** instead of the POSIX test command
+>    `[ ... ]`. The extended test command is _not_ POSIX compatible (meaning
+>    that it complies with the POSIX standard), but allows for more advanced
+>    test operations (not needed here)  
+> * `[[ "$line" == \>* ]]` Bash’s extended test command, which supports
+>   **pattern matching (globbing)**, which we use here.
+> * `[[ "$line" =~ ^\>.* ]]` The `=~` operator accepts **regular expressions**,
+>   allowing more advanced matching to be performed. Not really necessary in
+>   this specific case, but possible.
 
 </p>
 </details>
 <br>
 
-### 🔮 Additional tasks: add an error message
+### 🔮 Additional Task: add an error message
 
 Improve the script so that it additionally prints an explicit error message
 before exiting. The error message should look like this:
@@ -79,7 +81,33 @@ To add an explicit error message, we can change line 6 of the script to the
 following:
 
 ```sh
-[[ -f "$input_file" ]] || ( echo "Error: file '${input_file}' does not exist" && exit 1 )
+[ -f "$input_file" ] || { echo "Error: file '${input_file}' does not exist" && exit 1;}
+```
+
+</p>
+</details>
+<br>
+
+### 🔮 Additional Task: remove the `line` variable
+
+Make an alternative version of your script that does not use the `line`
+variable (because we only use it once anyway). In other words, yous script
+should directly extract the first character of the first line of the file,
+and test wether this character is `>`.
+
+> 🎯 **Hint:** you can use the command `cut -c1` to extract the first character
+> of a line of text.
+
+<br>
+<details><summary><b>✅ Solution</b></summary>
+<p>
+
+To avoid creating the intermediate `line` variable, we can directly extract
+the first character of the first line using the `cut -c1` command and a pipe:
+
+```sh
+[[ $(head -1 $input_file | cut -c1) == ">" ]] && \
+  echo "File '${input_file}' looks like a FASTA file"
 ```
 
 </p>
@@ -93,7 +121,7 @@ following:
 In the `exercises/` directory, try to run the following command:
 
 ```sh
-./reuse_stdin.sh data/Spo0A.msa
+./reuse_stdin.sh data/sample_01.fasta
 ```
 
 * **✨ Note:** to halt a running script press `Ctrl + C` on your keyboard.
@@ -102,36 +130,31 @@ In the `exercises/` directory, try to run the following command:
 
 **❓ Questions:**
 
-* Why doesn't the following work ?  
+* Why does the script not work ?  
 * How can we make it work ?
-* **🎯 Hint:** we will see this in more details in the next slides, but `$@`
-  is a list of all input argument values passed to a script (or function).
 
-For reference, here is the content of the `./reuse_stdin.sh` script:
-
-```sh
-#!/usr/bin/env bash
-
-echo "The list of input arguments is: $@"
-echo "And now we grep..."
-grep Spo0
-```
+> **🎯 Hint:** we will see this in more details in the next slides, but `$@`
+> is a list of all input argument values passed to a script (or function).
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
 <p>
 
 * The problem is that the script `reuse_stdin.sh` expects to get user input
-  on **the standard input**, but when we call the script with
-  `./reuse_stdin.sh data/Spo0A.msa`, we are passing the input (in the form
-  of a file name) **as an argument** (and indeed, you should see the file name
-  `data/Spo0A.msa` printed in the list of arguments).
+  on **the standard input**, but when we call the script with:
+  
+  ```sh
+  ./reuse_stdin.sh data/sample_01.fasta
+  ```
 
-* To fix the problem, we should pass the content of the input file
-  `data/Spo0A.msa` as standard input with the **`<`** redirection character:
+  We are passing the input (in the form of a file name) **as an argument**
+  (and indeed, you should see the file name printed in the list of arguments).
+
+* To fix the problem, we should pass the content of the input file as standard
+  input with the **`<`** redirection character:
 
     ```sh
-    ./reuse_stdin.sh < data/Spo0A.msa
+    ./reuse_stdin.sh < data/sample_01.fasta
     ```
 
 * Alternatively, we could also modify the `reuse_stdin.sh` script so that
@@ -140,7 +163,6 @@ grep Spo0
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
@@ -151,11 +173,12 @@ grep Spo0
 
 * The script should **accept 2 input arguments**: `name` and `day` (in
   this order).
-* The script should **print a sentence that contains the 2 values passed** by
-  the user as the arguments `name` and `day`.
+* The script should **print a sentence that contains the 2 values passed** as
+  the arguments `name` and `day`.
   For instance, if the user passes `John` as value for `name`, and `Wednesday`
   as value for `day`, the script could print something like:
-  `Hello John, what a nice Wednesday`.
+  > `Hello John, what a nice Wednesday`
+
 * If no or only 1 value is passed by the user, the script should
   **print an error message and exit** with an error code.
 * Don't forget to **make the script executable** and run it with some test
@@ -168,15 +191,15 @@ Here is how you would run this script:
 # -> Hello John, what a nice Wednesday
 ```
 
-**🎯 Hints:**
-
-* To exit a script, use the command `exit 0` (success) or `exit 1` (error
-  code 1).
-* To test whether a variable exists (and is non-empty), you can use
-  `[ -z $variable ]` or `[[ -z $variable ]]` - the former works in most
-  shells, while the latter only works in `bash` shells (we will see this in
-  more details later in the course). These expressions **evaluate to true** if
-  the variable is unset or empty.
+> **🎯 Hints:**
+>
+> * To exit a script, use the command `exit 0` (success) or `exit 1` (error
+>   code 1).
+> * To test whether a variable exists (and is non-empty), you can use
+>   `[ -z $variable ]` or `[[ -z $variable ]]`. These expressions
+>   **evaluate to true** if the variable is unset or empty. The former works
+>   in most shells (POSIX compliant), while the latter only works in `bash`
+>   shells (we will see this in more details later in the course).
   
 Here is an example of how we could test that `test_variable` is set and
 non-empty:
@@ -215,7 +238,7 @@ chmod a+x ./hello_world.sh Wednesday
 </details>
 <br>
 
-### 🔮 Additional tasks: detect missing arguments
+### 🔮 Additional Task: detect missing arguments
 
 Try to improve the script so that it can also detect when a single argument
 (instead of 2) is passed, and **provide a more custom error message**
@@ -226,7 +249,7 @@ depending on whether a single argument or both arguments are missing.
 <p>
 
 A simple solution is to detect whether both or only the 2nd value are missing
-from the input. Note that the presented solution assumes that the argument
+from the input. Note that solution shown here assumes that the argument
 values are always passed in the correct order (first `name` and then `day`).
 
 ```sh
@@ -242,19 +265,18 @@ echo "Hello $name, what a nice $day."
 exit 0
 ```
 
-**✨ Note:** we will see later in the course how you can make an interface
-that accepts named arguments, such as say `--name John --day Wednesday`.
+> ✨ **Note:** we will see later in the course how you can make an interface
+> that accepts named arguments, such as say `--name John --day Wednesday`.
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
 
 ## Exercise 2.4 - a simple `for` loop
 
-### Part 1: list files
+### A) List files
 
 Write a script named `list_files.sh` that:
 
@@ -283,29 +305,30 @@ done
 </details>
 <br>
 
-### Part 2: generate files
+### B) Generate files
 
 Write a script named `generate_empty_files.sh` that:
 
-* **Generates a number of empty files** named `empty_file_<x>_test.txt`,
-  where `<x>` is the number of the file (e.g. `empty_file_1_test.txt`,
-  `empty_file_2_test.txt`, etc...).
+* **Generates a number of empty files** named `empty_file_<x>.txt`,
+  where `<x>` is the number of the file (e.g. `empty_file_1.txt`,
+  `empty_file_2.txt`, etc...).
 * The script should **accept a single argument**: the number of files to
   generate.
 * If no value is passed by the user, the script should
   **generate 5 files by default**.
-* **🎯 Hints:**
-  * To generate an empty file, you can use the `touch <file name>`
-    command.
-  * Remember the problem with expanding things like `for x in {1..$n}` that
-    we saw in an exercise yesterday. In this exercise you will also need to
-    get around this problem.
 
-Example usage of `touch`:
-
-```sh
-touch a_new_file.txt  # Create a new (empty) file named "a_new_file.txt"
-```
+> **🎯 Hints:**
+>
+> * To generate an empty file, you can use the `touch <file name>` command.
+> * Remember the problem with expanding things like `for x in {1..$n}` that
+>   we saw in an exercise yesterday. In this exercise you will also need to
+>   get around this problem.
+>
+> Example usage of `touch`:
+>
+> ```sh
+> touch a_new_file.txt  # Create a new (empty) file named "a_new_file.txt"
+> ```
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -320,7 +343,7 @@ n=$1
 [ -z $n ] && n=5
 
 for ((i=1; i<=$n; i++)); do
-    touch empty_file_${i}_test.txt
+    touch empty_file_${i}.txt
 done
 ```
 
@@ -329,7 +352,7 @@ Alternatively, we can also use the `seq` command and **command substitution**
 
 ```sh
 for i in $( seq 1 $n ); do
-    touch empty_file_${i}_test.txt
+    touch empty_file_${i}.txt
 done
 ```
 
@@ -337,30 +360,29 @@ done
 </details>
 <br>
 
-### 🔮 Additional tasks (part 3): delete empty files
+### 🔮 C) Additional Task: delete empty files
 
-In the second part of this exercise, write a script that will automatically
-delete all files named `empty_file_<x>_test.txt`, but
-**only if they are empty**. Files that contain something should not be deleted,
-to avoid accidental data loss.
+Write a script that will automatically delete all files named
+`empty_file_<x>.txt`, but **only if they are empty**. Files that contain
+something should not be deleted, to avoid accidental data loss.
 
-**🎯 Hint:**
-
-* To test whether a file is empty or not, you can use
-  **`[ -s <file> ]`** (or **`[[ -s <file> ]]`**, as long as you are in bash),
-  which evaluates to **true** if the file is *not* empty.
-* Example usage of `[ -s <file> ]`:
-
-    ```sh
-    [ -s data/sample_01.dna ] && echo "file is not empty"
-    ```
-
-**🔥 Important:** when performing a **destructive** task in a loop, it's always
-best to run your script with prefixing the destructive command with `echo`
-as a test run, to make sure it works as expected!
-
-* To be extra safe, you can also use `rm -i` instead of `rm` so that you
-  are asked for confirmation to delete a file each time.
+> **🎯 Hint:**
+>
+> * To test whether a file is empty or not, you can use
+>   **`[ -s <file> ]`** (or **`[[ -s <file> ]]`**, as long as you are in bash),
+>   which evaluates to **true** if the file is _not_ empty.
+> * Example usage of `[ -s <file> ]`:
+>
+>    ```sh
+>    [ -s data/sample_01.dna ] && echo "file is not empty"
+>    ```
+>
+> **🔥 Important:** when performing a **destructive** task in a loop, it's
+> always best to run your script with prefixing the destructive command with
+> `echo` as a test run, to make sure it works as expected!
+>
+> To be extra safe, you can also use `rm -i` instead of `rm` so that you are
+> asked for confirmation to delete a file each time.
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -371,7 +393,7 @@ Script `delete_empty_files.sh`:
 ```sh
 #!/usr/bin/env bash
 
-for file in empty_file_*_test.txt; do
+for file in empty_file_*.txt; do
     [ -s "$file" ] && continue
     rm -i "$file"
 done
@@ -384,7 +406,7 @@ as **logical not** (inverses the value of a boolean).
 ```sh
 #!/usr/bin/env bash
 
-for file in empty_file_*_test.txt; do
+for file in empty_file_*.txt; do
     [ ! -s "$file" ] && rm "$file"
 done
 ```
@@ -416,7 +438,7 @@ the mean values for 3 different arrays of numbers (`weights`, `lengths` and
 
 <br>
 
-### Part 1: add a `sum` function and refactor the script
+### A) Add a `sum` function and refactor the script
 
 In its initial form, the `compute_mean_values.sh` contains a single function
 `mean` that takes care of both summing-up the data and computing the mean.
@@ -431,10 +453,13 @@ should do the following:
   function to compute the sum of values (i.e. no code duplication).
 * **Modify `compute_mean_values.sh`** so that it prints the sum of each array,
   in addition of its mean.
-* **🎯 Hint:** the core of the `sum` function is already present in the current
-  version of the script - it's part of the `mean` function. All you have to
-  do is extract the part of the `mean` function that computes the sum and
-  place it in a new `sum` function.
+
+> **🎯 Hint:** the core of the `sum` function is already present in the current
+> version of the script - it's part of the `mean` function. All you have to
+> do is extract the part of the `mean` function that computes the sum and
+> place it in a new `sum` function.
+
+<br>
 
 When implemented correctly, your script should output:
 
@@ -478,11 +503,11 @@ printf "Length:\tsum=%.2f\tmean=%.2f\n" $(sum ${lengths[@]}) $(mean ${lengths[@]
 
 </p>
 </details>
-<br>
 
 <br>
+<br>
 
-### 🔮 Additional tasks (part 2): add support for floating point values
+### 🔮 B) Additional Task: add support for float values
 
 Change the value of the `lengths` variable in the `compute_mean_values.sh` to
 the following:
@@ -517,14 +542,14 @@ Weight: sum=100.00  mean=20.00
 Length: sum=77.17   mean=15.43
 ```
 
-**🎯 Hints:**
-
-* One of the easiest ways to do floating point arithmetic in the bash shell is
-  to use the
-  **[`bc` command](https://www.gnu.org/software/bc/manual/html_mono/bc.html)**.
-* The way that `bc` works is by passing it a string with the expression to
-  evaluate. Example: `echo "1.1 + 2.2" | bc`.
-* To perform floating point divisions, use `bc -l`. E.g. `echo "3 / 2" | bc -l`
+> **🎯 Hints:**
+>
+> * One of the easiest ways to do floating point arithmetic in bash is to use
+>   the
+>   **[`bc` command](https://www.gnu.org/software/bc/manual/html_mono/bc.html)**.
+> * The way that `bc` works is by passing it a string with the expression to
+>   evaluate. Example: `echo "1.1 + 2.2" | bc`.
+> * To perform floating point divisions, use `bc -l`. E.g. `echo "3 / 2" | bc -l`
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -558,9 +583,9 @@ printf "Weight:\tsum=%.2f\tmean=%.2f\n" $(sum ${weights[@]}) $(mean ${weights[@]
 printf "Length:\tsum=%.2f\tmean=%.2f\n" $(sum ${lengths[@]}) $(mean ${lengths[@]})
 ```
 
-**💎 Bonus:** actually, since we are now using `bc` to compute the sum, we
-could also rewrite the `sum` function in a more efficient (and elegant) way,
-avoiding having a `for` loop altogether...
+> **💎 Bonus:** since we are now using `bc` to compute the sum, we could also
+> rewrite the `sum` function in a more efficient (and elegant) way, avoiding
+> having a `for` loop altogether...
 
 ```bash
 # Function that computes the sum of an array of integer or float values.
@@ -573,15 +598,15 @@ function sum {
 </details>
 <br>
 
-<br>
-
-### 🔮 Additional tasks (part 3): add a `variance` function
+### 🔮 C) Additional Task: add a `variance` function
 
 Add a function that **computes the variance** of each array, and modify
 `compute_mean_values.sh` so that is additionally prints the variance values.
 
-* **🎯 Hint:** variance is computed as: `(x - mean(x))^2 / (n-1)`, where `n`
-  is the total number of elements in the array.
+> **🎯 Hint:** variance is computed as: `(x - mean(x))^2 / (n-1)`, where `n`
+> is the total number of elements in the array.
+
+<br>
 
 When implemented correctly, your script should output:
 
@@ -645,7 +670,6 @@ printf "Length:\tsum=%.2f\tmean=%.2f\tvar=%.2f\n" \
 
 </p>
 </details>
-<br>
 
 <br>
 <br>
