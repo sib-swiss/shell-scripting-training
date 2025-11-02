@@ -14,10 +14,9 @@ repository contains all of the course material.
 
 **Exercise instructions:**
 
-* [Exercise instructions - part 1](exercises/instructions/exercises_1.md)
-* [Exercise instructions - part 2](exercises/instructions/exercises_2.md)
-* [Exercise instructions - part 3](exercises/instructions/exercises_3.md)
-* [Exercise instructions - FASTA to TSV converter project](exercises/instructions/exercises_project.md)
+* [Exercises part 1: shell expansions](exercises/instructions/exercises_1.md)
+* [Exercises part 2: arguments, loops and functions](exercises/instructions/exercises_2.md)
+* [Exercises: FASTA to TSV converter project](exercises/instructions/exercises_project.md)
 
 **Documentation:**
 
