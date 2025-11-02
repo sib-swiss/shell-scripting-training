@@ -2,9 +2,6 @@
 subtitle: Day 1 - Fundamentals
 ---
 
-Bash Fundamentals
-=================
-
 Course Structure
 ----------------
 
@@ -12,6 +9,10 @@ Course Structure
 1. How the shell works
 1. Building Blocks of Shell Programs
 1. Project
+
+
+Bash Fundamentals
+=================
 
 Practice
 --------
@@ -57,7 +58,7 @@ Shell scripts:
 * Are **plain text** files.
 * Contain **shell instructions** - just like the ones we type when working
   interactively.
-* Can be **launched**^[Usually, but not necessarily, from the terminal] like any other program.
+* Can be **launched**^[Very possibly, but not necessarily, from the terminal] like any other program.
   * input / output
   * command-line arguments
   * ...
@@ -69,7 +70,7 @@ To elaborate\ldots{}
   with constructs like _variables_, _control structures_, and _functions_.
 * However, it is _specialized_^[The shell can be considered a Domain-Specific
   Language, or DSL] for **running other programs** (including in **concurrency**
-  or **parallel**), **passing data** between them, and manipulating files. It
+  or **parallel**), **passing data** between them, and **manipulating files**. It
   can also do **simple** computations.
 * By contrast, Python & the like deal primarily with numbers, strings, and
   composite structures made out of these.
@@ -223,14 +224,14 @@ Rust\ldots)
 Which Shell?
 ------------
 
-* We'll use [**Bash**](https://www.gnu.org/software/bash), the default shell on
-  most Linux distributions (including WSL); also available on MacOS X^[Though
+* We'll use \textcolor{structure}{Bash} (`https://www.gnu.org/software/bash`), the default shell on
+  most Linux distributions (including WSL); also available on macOS^[Though
   the default version is somewhat old].
 * But there are others^[`$ cat /etc/shells` shows you which shells are available
   on your system.], both older (Bourne, Korn, \ldots{}) and newer (Fish, Nu,
   \ldots{}), simple or feature-rich, traditional or exotic, etc.
 
-**Warning:** generally, code written for shell X **won't work** in shell Y
+**Bottom line:** generally, code written for shell X **won't work** in shell Y
 \Rightarrow{} it matters which one we use.
 
 Course Approach
@@ -330,8 +331,8 @@ Shell Operation: The Gist
 Broadly speaking, the shell does the following:
 
 1. Reads input (terminal, file, ...)
-1. Splits the input into _tokens_.
-1. Parses tokens into commands.
+1. Splits the input into _tokens_ ("words").
+1. Parses tokens into commands ("sentences").
 1. Performs expansions (arithmetic, parameters, etc.).
 1. Removes quotes.
 1. Performs redirections.
@@ -351,30 +352,33 @@ Natural language analogy: recognize words (in speech or text)
 * But this involves significant work: consider foreign languages or hard-to-read
   texts.
 
+$\rightarrow$ Poor understanding of tokenizing leads to bugs.
+
 ----------
 
 _Scriptio continua_ has no spaces or punctuation...  $\rightarrow$ it's now
 obvious that recognizing words requires work.
 
 ![images/Vergilius_Augusteus,_Georgica_141-9](images/Vergilius_Augusteus,_Georgica_141-149.png)\
+\hfill\footnotesize Vergilius Augusteus, 4th century
 
-Tokenizing in Bash
+Tokenizing in Bash^[All programming languages have their own tokenizing rules]
 ------------------
 
-Bash (like all programming languages) also needs to tokenize its input. 
-
-* The input is split into *tokens* according to special^[In the sense that they have a special meaning to the shell] characters called *metacharacters*: whitespace
-  (`space`, `tab`, `newline`) or any of `|` `&` `;` `(` `)` `<` `>`
-* Whitespace _separates_ tokens (hence is never _part_ of tokens).
-* Tokens consist wholly of either non-whitespace metacharacters (`|&;()<>`)
+* The input is split according to *metacharacters*: whitespace
+  (`space`, `tab`, `newline`) or any of `| & ; ( ) < >`
+* Whitespace _separates_ tokens ($\rightarrow$ never _part_ of tokens).
+* Tokens consist wholly of either non-whitespace metacharacters 
   or non-metacharacters --- they're called _operators_ and _words_, respectively.
+
+\notabene{Metacharacters have special meaning to the shell.}
 
 -----------------
 
 The **tokenizing procedure** looks like this:
 
 1. Split on whitespace metacharacters.
-2. Split the resulting tokens on metacharacter/non-metacharacter boundaries.
+2. Split the resulting substrings on metacharacter/non-metacharacter boundaries.
 
 **Examples:**
 
@@ -386,7 +390,7 @@ ls-l|wc-l>>count         # -> Error !
 
 Lines 1 & 2: 7 tokens (5 words, 2 operators), line 3: 6 tokens (first token is `ls-l`).
 
-[metacharacters: (`space`, `tab`, `newline`) `|` `&` `;` `(` `)` `<` `>`]
+\footnotesize(metacharacters: `space tab newline | & ; ( ) < >`)
 
 Literal Characters
 ------------------
@@ -400,7 +404,7 @@ echo it is a fact that 3 > 2  # Surprise!
 
 . . .
 
-\ldots{} because the space and `>` are metacharacters, but here we want them to
+\ldots{} because `space` and `>` are metacharacters, but here we want them to
 stand for themselves: that is, to be _literal_. For this, we use _quoting_.
 
 Quoting
@@ -409,12 +413,12 @@ Quoting
 Quoting removes any special meaning of characters^[There are special characters
 other than metacharacters, _e.g._ `$`, `*`, `?` `!`, etc.]. The main forms are:
 
-* `\` (backslash): the next character becomes literal (except at end of line:
+* `\` (backslash): the next character becomes literal (except at end of line, to
   wrap long commands).
 * `''` (single quotes): all characters between `''` become literal (including `\`,
   so cannot include `'`).
 * `""` (double quotes): all characters between `""` become literal **except** `$`,
-  \verb+`+,  and `\` (only before `"`, `\`, `$`, \verb+`+).
+  \texttt{`},  and `\` (only before `"`, `\`, `$`, \texttt{`}).
 * `$''` (ANSI): like `''`, but `\t`, etc. work properly.
 
 Quoting - Showing Arguments
@@ -453,7 +457,7 @@ The important difference between **`''`** and **`""`** is that the latter allow
 _expansions_ to occur (because `$` retains its special status):
 
 ```bash
-name=Bond
+name=Bond   # Assignment - more on this later
 echo "my name is $name"  # Expansion
 # -> my name is Bond
 
@@ -472,13 +476,13 @@ Step 3: Parsing Commands
 Natural language analogy: recognizing _grammatically correct sentences_. This
 assumes words have been properly identified:
 
-| Utterance                       | Status                           |
-| ------------------------------- | -------------------------------- |
-| myho vercr afti sful lofe els   | words wrong, grammar _undefined_ |
-| hovercraft is my eels of full   | words ok, grammar wrong          |
-| my hovercraft is full of eels   | words ok, grammar ok             |
+| Utterance                         | Status                           |
+| --------------------------------- | -------------------------------- |
+| _myho vercr afti sful lofe els_   | words wrong, grammar _undefined_ |
+| _hovercraft is my eels of full_   | words ok, grammar wrong          |
+| _my hovercraft is full of eels_   | words ok, grammar ok             |
 
-$\rightarrow{}$ The shell parses _commands_ instead of sentences.^[For details
+\notabene{The shell parses \emph{commands} instead of sentences.}^[For details
 about the grammar, see its
 [official specification](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
 ]
@@ -522,7 +526,7 @@ Practice
 Step 4: Expansions
 ------------------
 
-After parsing tokens into commands come the **expansions**, _i.e._
+After parsing come the **expansions**, _i.e._
 the **replacement of expressions with values**, in this order:
 
 1. Brace expansion: `{1..10}`, etc.
@@ -538,14 +542,14 @@ the **replacement of expressions with values**, in this order:
 Brace Expansion: `{..}`, `{,}`
 ---------------
 
-Used to generate sets of strings based on:
+Purpose: generate sets of strings based on:
 
 * Comma-separated strings: `file_{A,B,C}.txt` $\rightarrow$ `file_A.txt`
   `file_B.txt` `file_C.txt`
 * A sequence: `sample_{1..9}` $\rightarrow$ `sample_1` ... `sample_9`
 
-This is **not** the same as file globbing: the generated strings do not have to
-be the names of existing files.
+This is **not the same** as file globbing: the generated strings are not matched
+to the names of existing files.^[or anything else]
 
 Brace Expansion - Examples
 --------------------------
@@ -656,7 +660,7 @@ With **`<(...)`**, the comparison can be done _on the fly_:
 comm <(sort spc-list-1.txt) <(sort spc-list-2.txt)
 ```
 
-$\rightarrow{}$ No temporary files, possibly faster.
+\notabene{No temporary files; also possibly faster.}
 
 Word Splitting
 --------------
@@ -720,9 +724,9 @@ IFS=','; showa $line; unset IFS   # 3 fields
 IFS - Internal Field Separator (continued)
 ------------------------------
 
-If `$IFS` is null, no splitting is done. If unset, the above default is used.  
+If `$IFS` is the empty string (aka "null"), no splitting is done. If unset, the above default is used.  
 
-$\rightarrow$ To reset the value of `IFS`: `unset IFS`.
+\consequence{To reset the value of \texttt{IFS}: \texttt{unset IFS}.}
 
 Filename Expansion ("globbing")
 -------------------------------
