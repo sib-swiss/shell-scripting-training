@@ -8,7 +8,7 @@ Now that we understand shell operation, we can start discussing the main
 building blocks of a script.
 
 * Parameters
-  * Operations
+  * Operations and Expansions
 * Control Statements
   * Conditionals
   * Loops
