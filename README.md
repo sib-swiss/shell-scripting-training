@@ -11,6 +11,7 @@ repository contains all of the course material.
 
 * [Course slides - day 1](slides/2days/shell-scripting-day1.pdf)
 * [Course slides - day 2](slides/2days/shell-scripting-day2.pdf)
+* [Summary](info/summary.md)
 
 **Exercise instructions:**
 
