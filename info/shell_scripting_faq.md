@@ -79,6 +79,22 @@ will remain in the same directory.
 * Command substitution `$(command)` are run in a sub-shell.
 
 <br>
+
+### Re-running the previous command
+
+* Executing `!!` in the shell will re-run the command ran just before.
+* With `!!:gs/old/new` we can re-run the last command, while replacing all
+  instances of `old` with `new`.
+
+**Example:**
+
+```sh
+echo "This is a test-1"
+!!                       # will print -> This is a test-1
+!!:gs/1/2                # will print -> This is a test-2
+```
+
+<br>
 <br>
 
 ## `zsh` vs. `bash` - some differences
