@@ -478,9 +478,13 @@ Otocolobus manul
 <details><summary><b>✅ Solution</b></summary>
 <p>
 
-A first solution is to add double quotes around the variable `$name` when
-passing it to the `showa` function. Note that it must be double quotes -
-single quotes will not work as they prevent expansion of the `$name` variable.
+In order to pass our value `Otocolobus manul` as a single argument, we have
+to **disable word splitting** on the expansion of `$name`.
+
+**Option 1:**  
+Prevent word splitting by adding **double quotes** around the variable `$name`.
+Note that we must use double quotes, because single quotes will would prevent
+expansion of `$name` in the first place.
 
 ```sh
 name="Otocolobus manul"
@@ -489,7 +493,8 @@ showa "$name"
 # Otocolobus manul
 ```
 
-A second solution is to set the
+**Option 2:**  
+Set the
 [**`IFS` - Internal Field Separator**](https://www.gnu.org/software/bash/manual/bash.html#index-IFS)
 to an empty string, so that the expanded content of `$name` is no longer split
 on whitespace (the default `IFS`).
