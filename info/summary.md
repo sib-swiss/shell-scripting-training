@@ -49,7 +49,8 @@ ls|wc-l>${output_file}
 ### Quoting
 
 When a character is **quoted**/**escaped**, it becomes a so-called **literal**,
-and loses its "special" meaning (e.g. metacharacter or expansion properties).
+and loses its "special" meaning (e.g. metacharacter, expansion or
+quoting/escaping properties).
 
 Three forms of quoting:
 
@@ -66,7 +67,11 @@ In summary:
 
 ```sh
 # Examples:
-name=Bond,\ "James Bond"      # --> name variable set to "Bond, James Bond" 
+# Quoting/escaping white space to avoid it being treated as metacharacter.
+cat "unfortunate name.txt"     
+name=Bond,\ James\ Bond      # --> name variable set to "Bond, James Bond" 
+
+echo "my name is '$name'"     # --> my name is 'Bond'
 echo "my name is \"$name\""   # --> my name is "Bond"
 echo 'my name is \"$name\"'   # --> my name is \"$name\"
 ```
@@ -85,6 +90,14 @@ echo 'my name is \"$name\"'   # --> my name is \"$name\"
   * `||`: executes the subsequent command/pipeline only
     **if the previous fails**.
   * `&`: execute the command/pipeline in the background.
+
+```sh
+# Simple commands grouped in a pipeline.
+grep -o 's:.*;' data/sample_01.fasta | sort | uniq -c | sort -rn | head -1
+
+# List of commands:
+[[ -f $file ]] && cat "$file" || echo "Error: file '$file' does not exist!"
+```
 
 <br>
 
