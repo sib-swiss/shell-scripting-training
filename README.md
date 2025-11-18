@@ -21,7 +21,7 @@ repository contains all of the course material.
 
 **Documentation:**
 
-* [Course frequently asked questions](info/shell_scripting_faq.md)
+* [Course frequently asked questions](info/faq.md)
 * [Bash Programming Reference](doc/bash_programming_ref.pdf)
 * [Bash koans](doc/bash_koans.md)
 * [A sysadmin's guide to bash scripting](doc/sysadmin_guide_to_bash_scripting.pdf)

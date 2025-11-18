@@ -36,12 +36,13 @@ fg           # Bring the process to the foreground.
 > * If multiple processes are running in the background, **`fg %i`** can bring
 >   back the desired process. E.g. `fg %3` will bring back the 3rd process to
 >   the foreground.
-> * Use `jobs` to show a list of backgrounded commands.
+> * Use `jobs` to show the list of jobs running in the background.
 
 <br>
 
-Alternatively, a process (backgrounded or not) can also be force-terminated
-with the `kill <PID>` command, where `<PID>` is the process ID.
+Alternatively, a process (in the background or not) can also be
+force-terminated with the `kill <PID>` command, where `<PID>` is the
+process ID.
 
 **Example:**
 
@@ -82,8 +83,8 @@ will remain in the same directory.
 
 ### Re-running the previous command
 
-* Executing `!!` in the shell will re-run the command ran just before.
-* With `!!:gs/old/new` we can re-run the last command, while replacing all
+* Executing **`!!`** in the shell will re-run the last command.
+* With **`!!:gs/old/new`** we can re-run the last command, while replacing all
   instances of `old` with `new`.
 
 **Example:**
