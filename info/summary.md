@@ -396,10 +396,11 @@ Bash has the following test operators:
 [[ -f ... ]]       # Test if a file exists, and is a "regular" file (not a directory or a symlink).
 [[ -d ... ]]       # Test is a directory exists.
 
-[[ foo == f* ]]    # --> true   (glob match)
-[[ foo == f?? ]]   # --> true   (glob match)
-[[ foo =~ ^f.* ]]  # --> true   (regexp match)
-[[ foo =~ fo?$ ]]  # --> false  (regexp match)
+[[ foo == f* ]]     # --> true   (glob match)
+[[ foo == f?? ]]    # --> true   (glob match)
+[[ ">xx" == ">"* ]] # quoting the ">" is necessary to escape it. \> would also work.
+[[ foo =~ ^f.* ]]   # --> true   (regexp match)
+[[ foo =~ fo?$ ]]   # --> false  (regexp match)
 
 [[ a < b ]]        # --> true (lexical comparison).
 (( 10 > 2 ))       # --> true
