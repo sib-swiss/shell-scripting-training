@@ -9,8 +9,18 @@ Write a short script named `test_fasta.sh` that does the following
 
 1. **Initializes a variable named `input_file`** and sets its value to
    `data/sample_01.fasta`.
+
 2. **Tests whether the file in `input_file` exists** and is a regular file.
    If the file does not exist, the script should exit with exit code `1`.
+
+  > 🦉 **Reminder:** in Bash, tests can be performed with the **`[[ ]]`**
+  > syntax, which is called the **extended test command**.
+  >
+  > * Word splitting does not occur inside of `[[ ]]`, which means that you
+  >   do not need to quote variable expansions inside of the test construct.
+  > * `[[ ]]` is **_not_ POSIX compliant**, meaning that it will not
+  >   necessarily work in shells other than Bash.
+
 3. **Reads the first line of the file**, and assigns it to a variable named
    `line`.
    > **🎯 Hint:** you can use the command `head -n1` to get the first line
@@ -30,8 +40,8 @@ Write a short script named `test_fasta.sh` that does the following
 <p>
 
 To make the script resilient to white spaces in file names, we need to
-**surround the expansion of `"$input_file"` with double quotes** on lines 6
-and 9 of the script.
+**surround the expansion of `"$input_file"` with double quotes** on line 9
+of the script.
 
 ```sh
 #!/bin/bash
@@ -39,28 +49,33 @@ and 9 of the script.
 input_file="data/sample_01.fasta"
 
 # Test whether file exists, and if not, exit the script.
-[[ -f "$input_file" ]] || exit 1
+[[ -f $input_file ]] || exit 1
 
 # Store the content of the first line of the file in the variable `line`.
 line=$(head -n1 "$input_file")
 
 # Test whether the first line starts with the character `>`.
-[ "${line:0:1}" = ">" ] && echo "File '${input_file}' looks like a FASTA file"
+# Note: the character `>` must be quoted as to lose its "special" meaning.
+[[ ${line:0:1} = ">" ]] && echo "File '${input_file}' looks like a FASTA file"
 ```
 
 > ✨ **Note:** here are some alternative ways of writing the test
-> `[ "${line:0:1}" = ">" ]`:
+> `[[ ${line:0:1} = ">" ]]`:
 >
-> * `[[ "${line:0:1}" == ">" ]]` This uses the bash
->    **extended test command `[[ ... ]]`** instead of the POSIX test command
->    `[ ... ]`. The extended test command is _not_ POSIX compatible (meaning
->    that it complies with the POSIX standard), but allows for more advanced
->    test operations (not needed here)  
-> * `[[ "$line" == \>* ]]` Bash’s extended test command, which supports
+> * `[[ "$line" == \>* ]]`: the extended test command supports
 >   **pattern matching (globbing)**, which we use here.
 > * `[[ "$line" =~ ^\>.* ]]` The `=~` operator accepts **regular expressions**,
 >   allowing more advanced matching to be performed. Not really necessary in
 >   this specific case, but possible.
+> * `[ "${line:0:1}" = ">" ]`: this uses the **POSIX test command**, which is
+>   an older way of performing tests in the shell.
+>   * An advantage of that syntax is that it is **POSIX compliant**, meaning
+>    that it complies with the POSIX standard and will therefor run in most
+>    shells.
+>   * Its disadvantage is that it does not support some of the more advanced
+>     test operators as `[[ ]]` does.
+>   * Unlike in `[[ ]]`, word splitting does occur in `[ ]`, which is why we
+>     must quote the variable expansion `"${line:0:1}"`.
 
 </p>
 </details>
@@ -71,17 +86,17 @@ line=$(head -n1 "$input_file")
 Improve the script so that it additionally prints an explicit error message
 before exiting. The error message should look like this:
 
-> Error: file 'input file name here' does not exist
+> Error: file 'input file name' does not exist
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
 <p>
 
 To add an explicit error message, we can change line 6 of the script to the
-following:
+following (note the usage of `{ ... }` to group commands):
 
 ```sh
-[ -f "$input_file" ] || { echo "Error: file '${input_file}' does not exist" && exit 1;}
+[[ -f $input_file ]] || { echo "Error: file '${input_file}' does not exist" && exit 1; }
 ```
 
 </p>
@@ -173,6 +188,7 @@ In the `exercises/` directory, try to run the following command:
 
 * The script should **accept 2 input arguments**: `name` and `day` (in
   this order).
+
 * The script should **print a sentence that contains the 2 values passed** as
   the arguments `name` and `day`.
   For instance, if the user passes `John` as value for `name`, and `Wednesday`
@@ -194,20 +210,17 @@ Here is how you would run this script:
 > **🎯 Hints:**
 >
 > * To exit a script, use the command `exit 0` (success) or `exit 1` (error
->   code 1).
+>   code `1`).
 > * To test whether a variable exists (and is non-empty), you can use
->   `[ -z $variable ]` or `[[ -z $variable ]]`. These expressions
->   **evaluate to true** if the variable is unset or empty. The former works
->   in most shells (POSIX compliant), while the latter only works in `bash`
->   shells (we will see this in more details later in the course).
-  
-Here is an example of how we could test that `test_variable` is set and
-non-empty:
-
-```sh
-unset test_variable
-[ -z $test_variable ] && echo "Variable 'test_variable' is not set..."
-```
+>   `[[ -z $variable ]]`, which **evaluates to true** if the variable is
+>   unset or empty.  
+>   Here is an example of how we could test that `test_variable` is set and
+>   non-empty:
+>
+>   ```sh
+>   unset test_variable
+>   [[ -z $test_variable ]] && echo "Variable 'test_variable' is not set..."
+>   ```
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -219,7 +232,7 @@ unset test_variable
 name=$1  # The 1st value passed to the script is assigned to variable "name".
 day=$2   # The 2nd value passed to the script is assigned to variable "day".
 
-[ -z "$day" ] && echo "please enter a name and day" &&  exit 1
+[[ -z $day ]] && echo "please enter a name and day" &&  exit 1
 
 echo "Hello $name, what a nice $day."
 exit 0
@@ -240,8 +253,7 @@ chmod a+x ./hello_world.sh Wednesday
 
 ### 🔮 Additional Task: detect missing arguments
 
-Try to improve the script so that it can also detect when a single argument
-(instead of 2) is passed, and **provide a more custom error message**
+Try to improve the script so that it **provides a more custom error message**
 depending on whether a single argument or both arguments are missing.
 
 <br>
@@ -258,15 +270,23 @@ values are always passed in the correct order (first `name` and then `day`).
 name=$1
 day=$2
 
-[ -z "$name" ] && echo "please enter a name and day" &&  exit 1
-[ -z "$day" ] && echo "please enter a day" &&  exit 1
+[[ -z $name ]] && echo "please enter a name and day" &&  exit 1
+[[ -z $day ]] && echo "please enter a day" &&  exit 1
 
 echo "Hello $name, what a nice $day."
 exit 0
 ```
 
-> ✨ **Note:** we will see later in the course how you can make an interface
-> that accepts named arguments, such as say `--name John --day Wednesday`.
+> ✨ **Notes:**
+>
+> * We will see later in the course how you can make an interface
+>   that accepts named arguments, such as say `--name John --day Wednesday`.
+> * Solution using POSIX-compliant test command:
+>
+>   ```sh
+>   [ -z "$name" ] && echo "please enter a name and day" &&  exit 1
+>   [ -z "$day" ] && echo "please enter a day" &&  exit 1
+>   ```
 
 </p>
 </details>
@@ -282,7 +302,8 @@ Write a script named `list_files.sh` that:
 
 * Accepts a **single input argument** that is a directory name.
 * **Using a `for` loop**, lists all files/directories located in the directory
-  that was passed as input (essentially, this script will do what `ls` does...).
+  that was passed as input (essentially, this script should do what `ls`
+  does...).
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -319,39 +340,39 @@ Write a script named `generate_empty_files.sh` that:
 
 > **🎯 Hints:**
 >
-> * To generate an empty file, you can use the `touch <file name>` command.
+> * To generate an empty file, you can use the **`touch <file name>`** command.
 > * Remember the problem with expanding things like `for x in {1..$n}` that
->   we saw in an exercise yesterday. In this exercise you will also need to
+>   we saw in an earlier exercise. In this exercise you will also need to
 >   get around this problem.
 >
 > Example usage of `touch`:
 >
 > ```sh
-> touch a_new_file.txt  # Create a new (empty) file named "a_new_file.txt"
+> touch new_file.txt  # Create a new (empty) file named "new_file.txt"
 > ```
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
 <p>
 
-Script `generate_empty_files.sh`:
+To avoid the `{1..$n}` expansion problem, we can the `seq` command and
+**command substitution** `$( seq 1 $n )` to run our `for` loop:
 
 ```sh
 #!/usr/bin/env bash
 
 n=$1
-[ -z $n ] && n=5
+[[ -z $n ]] && n=5
 
-for ((i=1; i<=$n; i++)); do
-    touch empty_file_${i}.txt
+for i in $( seq 1 "$n" ); do
+    touch "empty_file_${i}.txt"
 done
 ```
 
-Alternatively, we can also use the `seq` command and **command substitution**
-`$( seq 1 $n )` to run our `for` loop:
+Alternatively, we can also use the "C-style" loop syntax:
 
 ```sh
-for i in $( seq 1 $n ); do
+for ((i=1; i<=$n; i++)); do
     touch empty_file_${i}.txt
 done
 ```
@@ -362,27 +383,27 @@ done
 
 ### 🔮 C) Additional Task: delete empty files
 
-Write a script that will automatically delete all files named
-`empty_file_<x>.txt`, but **only if they are empty**. Files that contain
-something should not be deleted, to avoid accidental data loss.
+Write a script that deletes all files named `empty_file_<x>.txt`, but
+**only if they are empty** (to avoid accidental data loss, files that contain
+something should not be deleted).
 
-> **🎯 Hint:**
+> **🎯 Hint:** to test whether a file is empty or not, you can use
+> the test construct **`[[ -s <file> ]]`**, which evaluates to **true** if the
+> file is _not_ empty.
 >
-> * To test whether a file is empty or not, you can use
->   **`[ -s <file> ]`** (or **`[[ -s <file> ]]`**, as long as you are in bash),
->   which evaluates to **true** if the file is _not_ empty.
-> * Example usage of `[ -s <file> ]`:
->
->    ```sh
->    [ -s data/sample_01.fasta ] && echo "file is not empty"
->    ```
->
-> **🔥 Important:** when performing a **destructive** task in a loop, it's
-> always best to run your script with prefixing the destructive command with
-> `echo` as a test run, to make sure it works as expected!
+> ```sh
+>  # Example:
+>  [[ -s data/sample_01.fasta ]] && echo "file is not empty"
+> ```
+
+> **🔥 Important:** when performing a **destructive** task in a loop, it can
+> be a good idea to first run your script while prefixing the destructive
+> command with `echo`, to make sure it works as expected!
 >
 > To be extra safe, you can also use `rm -i` instead of `rm` so that you are
-> asked for confirmation to delete a file each time.
+> asked for confirmation to delete a file each time (but this of course means
+> the the script then requires some manual confirmation, which is often
+> something we want to avoid).
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -394,7 +415,7 @@ Script `delete_empty_files.sh`:
 #!/usr/bin/env bash
 
 for file in empty_file_*.txt; do
-    [ -s "$file" ] && continue
+    [[ -s $file ]] && continue
     rm -i "$file"
 done
 ```
@@ -407,7 +428,7 @@ as **logical not** (inverses the value of a boolean).
 #!/usr/bin/env bash
 
 for file in empty_file_*.txt; do
-    [ ! -s "$file" ] && rm "$file"
+    [[ ! -s $file ]] && rm "$file"
 done
 ```
 
