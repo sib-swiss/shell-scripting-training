@@ -274,8 +274,6 @@ echo $answer          # --> bash: answer: unbound variable
 
 ### Variable expansion
 
-There are 2 basic syntaxes for variable expansion:
-
 * **Short form: `$variable`** - works when the variable name can be inferred
   unambiguously.
 * **Long form: `${variable}`** - necessary when the variable is shorter than
@@ -396,10 +394,11 @@ Bash has the following test operators:
 [[ -f ... ]]       # Test if a file exists, and is a "regular" file (not a directory or a symlink).
 [[ -d ... ]]       # Test is a directory exists.
 
-[[ foo == f* ]]    # --> true   (glob match)
-[[ foo == f?? ]]   # --> true   (glob match)
-[[ foo =~ ^f.* ]]  # --> true   (regexp match)
-[[ foo =~ fo?$ ]]  # --> false  (regexp match)
+[[ foo == f* ]]     # --> true   (glob match)
+[[ foo == f?? ]]    # --> true   (glob match)
+[[ ">xx" == ">"* ]] # quoting the ">" is necessary to escape it. \> would also work.
+[[ foo =~ ^f.* ]]   # --> true   (regexp match)
+[[ foo =~ fo?$ ]]   # --> false  (regexp match)
 
 [[ a < b ]]        # --> true (lexical comparison).
 (( 10 > 2 ))       # --> true
@@ -431,7 +430,7 @@ Bash has the following test operators:
 <br>
 <br>
 
-### Input/Output redirection
+## Input/Output redirection
 
 Each time a command is run, 3 **file descriptors** are created by default:
 
@@ -461,3 +460,21 @@ source/destination:
 * `exec < $input_file`: set the standard input **file descriptor** to the
   value assigned to it (in this case, an input file). This is generally used
   in scripts.
+
+<br>
+<br>
+
+## Code structures
+
+### Loops
+
+### Functions
+
+```sh
+my_func() {
+<commands> # function body
+}
+function my_func {
+<commands> # function body
+}
+```
