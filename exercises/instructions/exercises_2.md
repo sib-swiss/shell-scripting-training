@@ -8,7 +8,7 @@ Write a short script named `test_fasta.sh` that does the following
 (in this order):
 
 1. **Initializes a variable named `input_file`** and sets its value to
-   `data/sample_01.dna`.
+   `data/sample_01.fasta`.
 2. **Tests whether the file in `input_file` exists** and is a regular file.
    If the file does not exist, the script should exit with exit code `1`.
 3. **Reads the first line of the file**, and assigns it to a variable named
@@ -23,7 +23,7 @@ Write a short script named `test_fasta.sh` that does the following
 
 5. **Make your script executable and test run it.**
    Also make sure that it still works if you set `input_file` to
-   `data/poorly named sample.dna` (i.e. an input file that contains a space).
+   `data/poorly named sample.fasta` (i.e. an input file that contains a space).
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -36,7 +36,7 @@ and 9 of the script.
 ```sh
 #!/bin/bash
 
-input_file="data/sample_01.dna"
+input_file="data/sample_01.fasta"
 
 # Test whether file exists, and if not, exit the script.
 [[ -f "$input_file" ]] || exit 1
@@ -374,7 +374,7 @@ something should not be deleted, to avoid accidental data loss.
 > * Example usage of `[ -s <file> ]`:
 >
 >    ```sh
->    [ -s data/sample_01.dna ] && echo "file is not empty"
+>    [ -s data/sample_01.fasta ] && echo "file is not empty"
 >    ```
 >
 > **🔥 Important:** when performing a **destructive** task in a loop, it's

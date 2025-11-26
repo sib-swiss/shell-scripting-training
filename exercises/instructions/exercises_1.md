@@ -5,18 +5,17 @@
 ## Before you start 📣
 
 * 📚 **Exercise material setup:** make sure you **downloaded and unzipped**
-  the course material** to your computer. The exercise material is found in
+  the course material to your computer. The exercise material is found in
   the `exercises/` subdirectory. Instructions assume that you are located
   in that directory.
 
 * 🔮 **Additional Tasks:** some exercises have **Additional Task** sections
   that you can complete if you still have time after having completed the main
-  part of the exercise. These will in principle _not_ be corrected in class,
-  but their solution is given in this document.
+  part of the exercise. These will in principle not be corrected in class,
+  but solutions are provided.
 
-* ✅ **Exercise solutions:** all exercises have their solution embedded in this
-  document. You can reveal them by clicking on the drop-down menu, as shown
-  below.
+* ✅ **Exercise solutions** are directly embedded in this document. You can
+  reveal them by clicking on the drop-down menu, as shown below.
 
   <details><summary><b>Solution (click to reveal)</b></summary>
   🌟 This reveals the answer 🌟
@@ -35,7 +34,16 @@
 
 ## Exercise 1.1 - A complex pipeline
 
-You are given the file `data/sample_01.dna`, which contains genetic sequences
+🎯 **Objective:** warmup exercise: a reminder of interactive shell usage and
+of some UNIX commands.
+
+<br>
+
+Before we write bash scripts, let's start with an exercise where we carry-out
+a task in an **interactive** way (i.e. typing our commands directly in the
+shell).
+
+You are given the file `data/sample_01.fasta`, which contains genetic sequences
 in [FASTA format](https://en.wikipedia.org/wiki/FASTA_format) that look like
 the following:
 
@@ -51,73 +59,122 @@ CGGCAAAGGTTCGGTGATGCGCCTCGGCGACGAGGCGCGTC
 GATCCATCGCACTAGACGTGGCCCTGGGCATTGGCGGCCTG
 ```
 
+> ✨ **Notes:**
+>
+> * In FASTA format, each sequence starts with a **header line**, identified
+>   by its leading **`>`** character.
+> * In the particular case of our FASTA files, the species name to which each
+>   sequence belongs can be found in the header, and is prefixed with **`s:`**.
+>   E.g., in our example above, the species of the first sequence is
+>   `Desulfovibrio vulgaris` - a species of
+>   [sulfate-reducing bacteria](https://en.wikipedia.org/wiki/Desulfovibrio_vulgaris).
+
+<br>
+
 Your task is to **find the number of sequences** of the species with the most
-sequences in the file (may be useful e.g. to check for over-representation).
+sequences in the file (useful e.g. to check for over-representation).
 The result should be a single number. For instance, if the most represented
 species has 16 sequences in the file, then your command should output `16`.
 
-> **🎯 Hints:**
->
-> * In a FASTA file, each sequence starts with a **header line** that can be
->   identified with by its leading **`>`** character.
-> * The species name to which each sequence belongs can be found in the header
->   of each sequence, and is prefixed with **`s:`**. In our example above, the
->   species of the first sequence is `Desulfovibrio vulgaris` - a species of
->   [sulfate-reducing bacteria](https://en.wikipedia.org/wiki/Desulfovibrio_vulgaris).
-> * Here are some common UNIX commands that could be useful to complete this
->   task:
->   * **`grep`** - print lines (of a text file or standard input) that match
->     a given pattern. The **`-o`** option of `grep` allows to print only the
->     part of the line that matches the given pattern instead of printing the
->     entire line (the default behavior).
->   * **`tail`** - output the last part of text files (or standard input).
->   * **`uniq`** - filter adjacent repeated lines and keep only a single
->     occurrence of them. By adding the **`-c`** option, it can also count
->     occurrences of each value (lines).
->   * **`sort`** - sort lines of text files (or standard input) alphabetically
->     or numerically (**`-n`** option).
-> * You can display help for these commands by typing **`man <command name>`**
->   in your shell.
->
-> <details>
-> <summary><b>🎯 Additional hint 1</b></summary>
-> <p>
->
-> The first step of this exercise is to isolate the name of the species for
-> each sequence. This can be done by using the `grep` command and its `-o`
-> option.
->
-> ```sh
-> grep -o 's:.*;' data/sample_01.dna
-> ```
->
-> </p>
-> </details>
->
-> <details>
-> <summary><b>🎯 Additional hint 2</b></summary>
-> <p>
->
-> After isolating the species name, we can use a combination of `sort` and
-> `uniq -c` to get a list of all species along with their count.
->
-> ```bash
-> grep -o 's:.*;' data/sample_01.dna | sort | uniq -c
-> ```
->
-> </p>
-> </details>
+To achieve this objective, we will count the number of sequence headers for
+each species, and then see which one has the most. In practice, we proceed in
+the following way (note: there are many ways to achieve this task - this is
+only one of them):
+
+1. **Extract the species name** from each header in the file. This can be done
+   by using the UNIX command `grep`.
+
+   ```sh
+   grep -o "s:.*;" data/sample_01.fasta
+   ```
+
+   > ✨ **Tip:** to check the output of a command without displaying all of
+   > it, you can pipe the command's output into `head`.
+   >
+   > ```sh
+   > grep -o "s:.*;" data/sample_01.fasta | head
+   > ```
+
+   > 🦉 **Reminder:** `grep` print lines (from a file or from standard input)
+   > that match a given pattern. The **`-o`** option of `grep` allows to print
+   > only the part of the line that matches the pattern instead of printing the
+   > entire line (the default behavior).
+
+   <br>
+
+2. **Count the number of occurrences** of each species by piping the output
+   of our earlier `grep` into `sort` and `uniq`:
+
+    ```sh
+    grep -o "s:.*;" data/sample_01.fasta | sort | uniq -c
+    ```
+
+   `uniq -c` counts the number of occurrences of each line. However, this
+   only works if the lines are sorted (identical lines must be adjacent),
+   which is why we first sort the lines with **`sort`**.
+
+    > 🦉 **Reminder:**
+    >
+    > * **`sort`**: sorts lines of text alphabetically, or numerically
+    >   with `-n` option.
+    > * **`uniq`**: filters _adjacent_ repeated lines and keeps only a single
+    >   occurrence of them. By adding the **`-c`** option, it can also count
+    >   occurrences of each line.
+
+    <br>
+
+3. **Isolate the species with the most counts**. For this we need to:
+   * Order species by increasing (or decreasing) occurrence count. This can
+     be achieved with **`sort -n`** (does a numeric sort).
+   * Keep only the species with the largest count number. This can be done with
+     **`tail -1`** or **`head -1`** (if you sorted in decreasing order).
+
+      <details>
+      <summary><b>✅ Solution</b></summary>
+
+      ```sh
+      grep -o "s:.*;" data/sample_01.fasta | sort | uniq -c | sort -n | tail -1
+      ```
+
+      </details>
+
+    > 🦉 **Reminder:**
+    >
+    > * **`head`** - output the first part of text files (or standard input).
+    > * **`tail`** output the last part of text files (or standard input).
+
+    <br>
+
+4. **Extract the number of occurrence count**. The last step is to keep only
+   the actual occurrence count, and not the entire line. This can be done e.g.
+   with either:
+   * `grep -o '[0-9]\+'`
+   * `awk '{print $1}'` : the command `awk` splits lines on whitespace by
+     default, and the `print $1` instruction prints the first field or the
+     line.
+
+   <br>
+   <details>
+   <summary><b>✅ Solution</b></summary>
+
+    ```sh
+    grep -o 's:.*;' data/sample_01.fasta | sort | uniq -c | sort -n | tail -1 | grep -o '[0-9]\+'
+    grep -o 's:.*;' data/sample_01.fasta | sort | uniq -c | sort -n | tail -1 | awk '{print $1}'
+    ```
+
+   </details>
 
 <br>
-<details><summary><b>✅ Solution</b></summary>
+<details><summary><b>✅ Full solution</b></summary>
 <p>
 
-There are a multitude of ways to solve this task. Here is one of them:
+There is a multitude of ways to solve this task. Here is one of them:
 
 ```bash
 # Commented solution. This will not work if you copy/paste as is because of
 # the comments at the end of lines.
-grep -o 's:.*;' data/sample_01.dna | \  # Keep only species names.
+
+grep -o 's:.*;' data/sample_01.fasta | \  # Keep only species names.
   sort | \            # Sort alphabetically. Needed for applying `uniq` to the data.
   uniq -c | \         # Keep only a single occurrence of each value, and add counts.
   sort -n | \         # Sort numerically.
@@ -125,7 +182,7 @@ grep -o 's:.*;' data/sample_01.dna | \  # Keep only species names.
   grep -o '[0-9]\+'   # Keep only the number of counts (not the name of the species).
 
 # The same on a single line:
-grep -o 's:.*;' data/sample_01.dna | sort | uniq -c | sort -n | tail -1 | grep -o '[0-9]\+'
+grep -o 's:.*;' data/sample_01.fasta | sort | uniq -c | sort -n | tail -1 | grep -o '[0-9]\+'
 ```
 
 <br>
@@ -133,8 +190,8 @@ grep -o 's:.*;' data/sample_01.dna | sort | uniq -c | sort -n | tail -1 | grep -
 > **✨ Notes**
 >
 > * The backslashes `\` at the end of lines are only for page layout purpose
->   (it's a line continuation character) - it's all really one line. As we
->   shall see, backslashes are a form of _escaping_.
+>   (it's a line continuation character). As we shall see, backslashes are a
+>   form of _escaping_.
 > * The second `grep` could be replaced by `sed`, `awk` or `cut`. We decided to
 >   show the solution with `grep` because it might be more familiar to most
 >   people.
@@ -142,7 +199,7 @@ grep -o 's:.*;' data/sample_01.dna | sort | uniq -c | sort -n | tail -1 | grep -
 >   leading `s:` prefix), we can use a regular expression with a lookahead.
 >
 >    ```sh
->    grep -oP '(?<=s:).*;' data/sample_01.dna
+>    grep -oP "(?<=s:).*;" data/sample_01.fasta
 >    ```
 
 </p>
@@ -173,8 +230,8 @@ grep -o 's:.*;' |    # Keep only species names.
 > * These are just the commands from Exercise 1.1 with a couple of minor
 >   changes (can you spot them?).
 > * In the file name, the **`.sh`** extension, like all extensions under UNIX,
->   has no particular effect and is just a matter of convention (`sh` is short
->   for `shell`).
+>   has no particular effect and is just a matter of convention. `sh` is short
+>   for `shell`.
 
 <br>
 
@@ -188,13 +245,13 @@ chmod a+x max_spc.sh
 We can now run our script as if it were a **system command**...
 
 ```bash
-./max_spc.sh < ./data/sample_01.dna
+./max_spc.sh < ./data/sample_01.fasta
 ```
 
 Of course, we can pass any other FASTA file to it...
 
 ```bash
-./max_spc.sh < ./data/sample_02.dna
+./max_spc.sh < ./data/sample_02.fasta
 ```
 
 <br>
@@ -204,7 +261,7 @@ Of course, we can pass any other FASTA file to it...
 > try copy-pasting the following lines in your shell if you like:
 >
 > ```bash
-> for file in ./data/sample_0?.dna; do
+> for file in ./data/sample_0?.fasta; do
 >     echo -n "Max sequence counts for a single species in $file: "
 >     ./max_spc.sh < "$file"
 > done
@@ -231,7 +288,7 @@ in the second case, but not in the first ?
 <details><summary><b>✅ Solution</b></summary>
 <p>
 
-* `echo my name is '$name'`: here the variable name is surrounded by single
+* `echo my name is '$name'`: here the variable `name` is surrounded by single
   quotes, which prevents it from being expanded by the shell.
 * `echo "my name is '$name'"`: this time there are additionally double quotes
   around the single quotes. Double quotes have the effect of removing the
@@ -292,7 +349,9 @@ The problem is that the single quote in `O'Donnelly` is not matched by a second
    > **🔥 Important:** make sure your command also works with files whose name
    > contains a space!
 
-   > **🎯 Hint:** the command to test if a file exists is: `[[ -f "$file" ]]`
+   > **🎯 Hint:** the command to test if a file exists is: `[[ -f $file ]]`.
+   > Note the word splitting is deactivated, and therefore it is not
+   > necessary to quote the `$file` variable.
 
    <br>
 
@@ -327,7 +386,7 @@ file="test_file.txt"      # Test with a regular file.
 file="test file.txt"      # Test with a file containing a white space.
 file="missing_file.txt"   # Test with a non-existent file.
 
-[ -f "$file" ] && cat "$file" || echo "Error: file '$file' does not exist!"
+[[ -f $file ]] && cat "$file" || echo "Error: file '$file' does not exist!"
 
 # Alternatively, we can also directly run `cat` on the file, and re-direct
 # eventual error messages to /dev/null (but this is maybe slightly hacky...).
@@ -346,7 +405,7 @@ cat "$file" 2> /dev/null || echo "Error: file '$file' does not exist!"
 To both print and save the error message to a log file named `tmp.log`:
 
 ```sh
-[ -f "$file" ] && cat "$file"  || \
+[[ -f $file ]] && cat "$file"  || \
   echo "Error: file '$file' does not exist!" | tee -a tmp.log
 ```
 
@@ -368,7 +427,7 @@ date "+%Y%m%d %H:%M:%S"
 <p>
 
 ```sh
-[ -f "$file" ] && cat "$file" || \
+[[ -f $file ]] && cat "$file" || \
   echo "$(date "+%Y%m%d %H:%M:%S") - Error: file '$file' does not exist!" | \
   tee -a tmp.log
 ```
@@ -398,10 +457,13 @@ showa $name
 
 You should see that the functions tells us that 2 arguments were passed to it.
 
-Give two ways of passing `$name` to `showa` such that the content of `$name`
-is **passed as a single argument**. In other words, `showa` should output
-[`Otocolobus manul`](https://en.wikipedia.org/wiki/Pallas%27s_cat) on a
-single line, as shown below.
+<br>
+
+**❓ Question:** give two ways of passing `$name` to `showa` such that the
+content of `$name` is **passed as a single argument**. In other words, `showa`
+should output
+[`Otocolobus manul`](https://en.wikipedia.org/wiki/Pallas%27s_cat) on a single
+line, as shown below.
 
 ```bash
 1 args
@@ -416,9 +478,13 @@ Otocolobus manul
 <details><summary><b>✅ Solution</b></summary>
 <p>
 
-A first solution is to add double quotes around the variable `$name` when
-passing it to the `showa` function. Note that it must be double quotes -
-single quotes will not work as they prevent expansion of the `$name` variable.
+In order to pass our value `Otocolobus manul` as a single argument, we have
+to **disable word splitting** on the expansion of `$name`.
+
+**Option 1:**  
+Prevent word splitting by adding **double quotes** around the variable `$name`.
+Note that we must use double quotes, because single quotes will would prevent
+expansion of `$name` in the first place.
 
 ```sh
 name="Otocolobus manul"
@@ -427,7 +493,8 @@ showa "$name"
 # Otocolobus manul
 ```
 
-A second solution is to set the
+**Option 2:**  
+Set the
 [**`IFS` - Internal Field Separator**](https://www.gnu.org/software/bash/manual/bash.html#index-IFS)
 to an empty string, so that the expanded content of `$name` is no longer split
 on whitespace (the default `IFS`).
@@ -466,11 +533,11 @@ for i in {1..$n}; do
 done
 ```
 
-> **❓ Questions:** why does it not work as expected ?
+**❓ Question:** why does it not work as expected ?
 
 > **✨ Note:** we have not yet formally seen the syntax of `for` loops, but it
-> doesn't really matter here (the syntax of the for loop is correct, the
-> problem is elsewhere).
+> doesn't really matter here: the syntax of the for loop is correct, the
+> problem is elsewhere.
 
 > **⚠️ Warning:** make sure that you are using `bash` and not `zsh`  - the
 > [Z shell](https://en.wikipedia.org/wiki/Z_shell) - which is currently the
@@ -488,8 +555,8 @@ Specifically, brace expansion is **performed before any other expansions**. In
 our case, this means that the shell will attempt to expand `{1..$n}` before it
 has actually expanded `$n` to the value `10`. Since `{1..$n}` does not expand
 to anything, it is left as is, and then `$n` is expanded into `10`. As a
-result, the `for` loop iterates over a single value: `{1..$10}`, which is
-printed to the terminal via `echo {1..$10}`.
+result, the `for` loop iterates over a single value: `{1..10}`, which is
+printed to the terminal via `echo {1..10}`.
 
 </p>
 </details>
@@ -540,13 +607,23 @@ The files `data/gene_expression_s1.tsv` and `data/gene_expression_s2.tsv` are
 two replicates of a gene expression experiment.
 
 The files contain tabular data with 2 columns: the name of the gene (1st
-column) and its expression level (2nd column). To make sure that both files
-contain values for the same genes and in the same order, we want to quickly
-verify that **the 1st column of both files is identical**.
+column) and its expression level (2nd column).
+
+```txt
+GeneID      Sample1
+1007_s_at   10.93
+1053_at     8.28
+117_at      3.31
+...
+```
+
+To make sure that both files contain values for the same genes and in the same
+order, we want to quickly verify that
+**the 1st column of both files is identical**.
 
 Using the commands **`diff`** and **`cut`**, write a 1-line command that checks
 whether the first column of these two files are identical. This task should be
-performed **without creating any intermediate file**.
+performed **without creating any intermediate files**.
 
 > **🎯 Hints:**
 >
