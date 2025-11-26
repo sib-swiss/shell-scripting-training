@@ -1,4 +1,4 @@
 #!/bin/bash
 
-printf "NOT_EXPORTED: %s\n" "$NOT_EXPORTED"
-printf "    EXPORTED: %s\n" "$EXPORTED"
+echo "NOT_EXPORTED: $NOT_EXPORTED"
+echo "    EXPORTED: $EXPORTED"
