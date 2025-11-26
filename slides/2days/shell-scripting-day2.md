@@ -696,7 +696,7 @@ for e in "${array[@]}"; do ... ; done
 Example of Array Usage
 ----------------------
 
-Cf. `../src/pascal.sh`
+Cf. `../src/array-loop.sh`
 
 Arrays and Word Splitting
 -------------------------
