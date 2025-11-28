@@ -464,9 +464,9 @@ the mean values for 3 different arrays of numbers (`weights`, `lengths` and
 In its initial form, the `compute_mean_values.sh` contains a single function
 `mean` that takes care of both summing-up the data and computing the mean.
 
-We now would like to refactor the script so that it has a dedicated function
-that **computes the sum** of an array of (integer) values. Specifically, you
-should do the following:
+Your first task is to refactor the script so that it has a dedicated
+**function that computes the sum** of an array of (integer) values.
+Specifically, you should do the following:
 
 * **Write a `sum` function** that computes the sum of an array of integer
   values.
@@ -493,6 +493,12 @@ Length: sum=70.00   mean=14.00
 <br>
 <details><summary><b>✅ Solution</b></summary>
 <p>
+
+> ✨ **Note:** in this solution, the expansion of variables such as `$@` or
+> `${ages[@]}` is not quoted because we expect all values in the arrays to be
+> numbers (and therefore there is no word-splitting to prevent).
+> If we used arrays potentially containing strings with whitespaces, quoting
+> would be necessary.
 
 ```bash
 #!/usr/bin/env bash
@@ -659,7 +665,7 @@ function mean {
     echo "$(sum $@) / $#" | bc -l
 }
 
-# Function that calculates the sample variance of an array of values.
+# Function that calculates the variance of an array of values.
 function variance {
     local mean_value=$(mean $@)
 
@@ -670,7 +676,7 @@ function variance {
         squared_diff_sum=$( echo "$squared_diff_sum + $squared_diff" | bc -l )
     done
 
-    # Return the sample variance.
+    # Return the variance.
     echo "$squared_diff_sum / ( $# - 1 )" | bc -l
 }
 

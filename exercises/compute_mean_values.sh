@@ -19,11 +19,11 @@ function mean {
 }
 
 # Compute the mean for each array, by calling the `mean` function.
-mean_age=$(mean ${ages[@]})
-mean_weight=$(mean ${weights[@]})
-mean_length=$(mean ${lengths[@]})
+mean_age=$(mean "${ages[@]}")
+mean_weight=$(mean "${weights[@]}")
+mean_length=$(mean "${lengths[@]}")
 
 # Print mean values:
-printf "Age:\tmean=%.2f\n" $mean_age
-printf "Weight:\tmean=%.2f\n" $mean_weight
-printf "Length:\tmean=%.2f\n" $mean_length
+printf "Age:\tmean=%.2f\n" "$mean_age"
+printf "Weight:\tmean=%.2f\n" "$mean_weight"
+printf "Length:\tmean=%.2f\n" "$mean_length"

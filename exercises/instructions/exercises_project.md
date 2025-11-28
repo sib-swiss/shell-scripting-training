@@ -47,7 +47,7 @@ Note that the header and sequence are separated by a `TAB`.
 ## Exercise 3.1 - Program logic
 
 Now that we are familiar with the task at hand, let's start by laying out
-the different steps that will have to be carried-out.
+the different steps that will have to be carried-out by our script.
 
 <br>
 
@@ -58,6 +58,7 @@ Let's start by creating a new script file.
 * **Create a new script file** named `fasta2tsv.sh`.
 * **Make the script print** a simple line, e.g.
   `Starting FASTA to TSV converter...`.
+* Add `set -u` at the top of the script, to **guard against unset variables**.
 * **Add execution permissions** to the script and test-run it.
 
 <br>
@@ -66,6 +67,9 @@ Let's start by creating a new script file.
 
 ```sh
 #!/usr/bin/env bash
+
+# Guard against unset variables.
+set -u
 
 # Print a test string, just to make sure the script works:
 echo "Starting FASTA to TSV converter..."
@@ -128,20 +132,23 @@ writing the pseudocode as shell comments in the `fasta2tsv.sh` file.
 ```sh
 #!/usr/bin/env bash
 
+# Guard against unset variables.
+set -u
+
 # Print a test string, just to make sure the script works:
 echo "Starting FASTA to TSV converter..."
 
 # Program logic in pseudo-code:
 
-# 1. Read the first line, strip the leading '>` and trailing newline, and
-#    print it, followed by a tab character.
+# 1. Read the first line, strip the leading '>`, and print it, followed by
+#    a tab character.
 
-# 2. While there are still lines to read in the file:
-#    3. Read one line and strip the trailing newline.
-#    4. * If the line starts with `>` (FASTA header):
-#         5. Print a newline (this starts a new record).
-#         6. Print the header line (skipping the `>`), followed by a tab.
-#       * Otherwise (sequence), just print the line.
+# 2. While there are lines in the file, read the next line.
+#    * If the line starts with `>` (FASTA header):
+#        Print a newline (this starts a new record).
+#        Print the header line (skipping the `>`), followed by a tab.
+#    * Otherwise (sequence):
+#       Print the sequence line without adding a newline at the end.
 ```
 
 > ✨ **Note:** the _first_ header line is treated slightly differently from the
@@ -156,19 +163,35 @@ echo "Starting FASTA to TSV converter..."
 
 ## Exercise 3.2 - Reading the input file line by line
 
-We will now start to flesh-out our **`fasta2tsv.sh`** script that we created
-in exercise 3.1 with actual code.
+We will now start to flesh-out the **`fasta2tsv.sh`** script we created in
+exercise 3.1. The first part we will implement is the reading of the input
+file. For now we will assume that input is provided via
+**standard input redirection**, like so:
 
-The first part of the FASTA to TSV converter that we will implement is the
-reading of the input. For now we will assume that our input FASTA data
-**is provided to our script via the standard input**.
+```sh
+./fasta2tsv.sh < data/fasta2tsv_test_input.fasta
+```
+
+Since the task to be executed by our script can be dealt-with one line at a
+time, we will also be reading the input file **one line at a time**. This is
+both easier and more parsimonious in terms of memory (RAM) usage (FASTA files
+can be large, therefore loading an entire file into memory could potentially
+require lots of memory).
 
 <br>
 
 ### A) Reading the first line from the input
 
 Read the first line of the FASTA input into a variable named `line`, and print
-that line to stdout.
+it to your terminal (_standard output_).
+
+> 🦉 **Reminder:** to read one line from _standard input_ and store it in a
+> variable, we can use the **`read`** bash builtin command:
+>
+> ```sh
+> read my_variable   # Read one line from stdin and store it in "my_variable".
+> help read          # Display help for the read builtin command.
+> ```
 
 Test your script by running it on the `data/fasta2tsv_test_input.fasta` test
 input file. It should print a single line (the first line of the file):
@@ -177,7 +200,7 @@ input file. It should print a single line (the first line of the file):
 ./fasta2tsv.sh < data/fasta2tsv_test_input.fasta
 ```
 
-> ✨ **Note::** we can now delete the initial test line from out script.
+> ✨ **Note:** we can now delete the initial test line from out script.
 
 <br>
 <details><summary><b>✅ Solution</b></summary>
@@ -186,6 +209,10 @@ input file. It should print a single line (the first line of the file):
 ```sh
 #!/usr/bin/env bash
 
+# Guard against unset variables.
+set -u
+
+# Read and print the first line of the file.
 read line
 printf "%s\n" "$line"
 ```
@@ -205,6 +232,24 @@ Read all remaining lines, **one at a time**. Store each line in the variable
 > ✨ **Note:** if we just wanted to print all lines, we could simply call
 > `cat`. But as we will want to process individual lines, we need to be able
 > to read each line individually.
+
+> ⚠️ **Warning for Windows users:** if your lines do not print properly, a
+> likely cause for the problem is that the line endings of the input file
+> `data/fasta2tsv_test_input.fasta` have been converted from `\n` to `\r\n`
+> by Git when you cloned the course repo. When reading the line, `read` strips
+> the trailing `\n` (UNIX newline character), but not the `\r`, which is a
+> special character indicating that the print cursor position should be moved
+> to the start of the line (and so the next time something is printed, it
+> overwrites the already printed text on the line).
+>
+> To fix the issue, you can simply trim the `\r` just after reading the input:
+>
+> ```sh
+> line=${line%'\r'}
+> ```
+>
+> If you did not clone the repo with Git (or are not using Windows), there
+> should be no problem.
 
 As before, test your script by running:
 
@@ -228,11 +273,14 @@ lines to read, so a `while` loop seems most useful.
 ```sh
 #!/usr/bin/env bash
 
+# Guard against unset variables.
+set -u
+
 # Read and print the first line of the file.
 read line
 printf "%s\n" "$line"
 
-# Read and print all remaining lines.
+# While there are lines in the file, read the next line.
 while read line; do
   printf "%s\n" "$line"
 done
@@ -292,11 +340,14 @@ variable is a `>` or not.
 ```sh
 #!/usr/bin/env bash
 
+# Guard against unset variables.
+set -u
+
 # Read and print the first line of the file.
 read line
 printf "%s\n" "$line"
 
-# Read and print all remaining lines.
+# While there are lines in the file, read the next line.
 while read line; do
 
   # Line is a header line
@@ -343,11 +394,14 @@ them differently. Update the `fasta2tsv.sh` script so that:
 ```sh
 #!/usr/bin/env bash
 
+# Guard against unset variables.
+set -u
+
 # Read and print the first line of the file.
 read line
 printf "%s\n" "$line"
 
-# Read and print all remaining lines.
+# While there are lines in the file, read the next line.
 while read line; do
 
   # Line is a header line
@@ -400,25 +454,96 @@ When you are done, try to run the script again, and try to run the test with
 ```sh
 #!/usr/bin/env bash
 
-# Read and print the first line of the file.
+# Guard against unset variables.
+set -u
+
+# 1. Read the first line, strip the leading '>` and trailing newline, and
+#    print it, followed by a tab character.
 read line
 printf "%s\t" "${line:1}"
 
-# Read and print all remaining lines.
+
+# 2. While there are lines in the file, read the next line.
 while read line; do
 
-  # Line is a header line
-  if [[ ${line:0:1} = '>' ]]; then
-    printf "\n"
-    printf "%s\t" "${line:1}"
+    # Line is a header line.
+    if [[ ${line:0:1} == ">" ]]; then
+        # Print a newline (this starts a new record).
+        # Print the header line (skipping the `>`), followed by a tab.
+        printf "\n"
+        printf "%s\t" "${line:1}"
 
-  # Line is a sequence line.
-  else
-    printf "%s" "$line"
-  fi
-
+    # Line is a sequence line.
+    else
+        # Print the sequence line without adding a newline at the end.
+        printf "%s" "$line"
+    fi
 done
+printf "\n"
+exit 0
+```
 
+</p>
+</details>
+
+<br>
+<br>
+
+## Exercise 3.6 - allow passing the input file as an argument
+
+Now that our script is functional, we can improve it by adding a few usage
+niceties. Specifically, it would be convenient if the input file could also
+be **passed as an argument** rather than only on _standard input_ as is
+currently the case.
+
+In other words, your task here is to modify `./fasta2tsv.sh` so that it can be
+called in both of the following forms:
+
+```sh
+./fasta2tsv.sh data/fasta2tsv_test_input.fasta     # Input passed as argument.
+./fasta2tsv.sh < data/fasta2tsv_test_input.fasta   # Input passed via stdin.
+```
+
+For this you will need to:
+
+1. Detect whether the user passed an argument (the input file).
+2. If yes, redirect the content of the file to _standard input_.
+   Such redirection can be done with:
+
+   ```sh
+   exec < input_file   # Redirect stdin to read from "input_file".
+   ```
+
+<br>
+<details><summary><b>✅ Solution</b></summary>
+<p>
+
+```sh
+#!/usr/bin/env bash
+
+# If user passes an argument (input file), redirect stdin from that file.
+[[ -n $1 ]] && exec < "$1"
+
+# Guard against unset variables.
+set -u
+
+# 1. Read the first line, strip the leading '>` and trailing newline, and
+#    print it, followed by a tab character.
+read line
+printf "%s\t" "${line:1}"
+
+# 2. While there are lines in the file, read the next line.
+while read line; do
+    if [[ ${line:0:1} == ">" ]]; then
+        # Print a newline (this starts a new record).
+        # Print the header line (skipping the `>`), followed by a tab.
+        printf "\n"
+        printf "%s\t" "${line:1}"
+    else
+        # Print the sequence line without adding a newline at the end.
+        printf "%s" "$line"
+    fi
+done
 printf "\n"
 exit 0
 ```
@@ -431,16 +556,16 @@ exit 0
 
 ## 🔮 Additional tasks - Further developments
 
-Here are some ideas to make the script more realistic:
+Here are some ideas to further improve our `./fasta2tsv.sh` script :
 
 * **Add a header to the output TSV file:** the first line of a TSV/CSV file
   typically consists of field names rather than data themselves. Our script
-  could be modified to include them.
+  could be modified to include such a header line.
 * **Make the header optional:** sometimes, headers get in the way (e.g. when
-  sorting by species), so perhaps they should be printed at the user's
+  sorting by species), so perhaps he header should be printed at the user's
   discretion. The `fasta2tsv.sh` script could thus accept an option to prevent
-  the printing of the output header.
-* **Custom field separator:** for now fields in the output are TAB-separated,
+  the printing of the header.
+* **Custom field separator:** for now fields in the output are TAB-delimited,
   but it would be convenient to output CSV (comma-separated) or, for that
   matter, to let the user specify any custom field separator.
 
